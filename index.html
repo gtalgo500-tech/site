@@ -164,13 +164,21 @@ tr:hover{background:var(--glass-hover)}
         padding: 20px;
     }
 
+    /* Grid vertical pe mobil */
     .grid {
+        display: grid;
         grid-template-columns: 1fr;
-        gap: 15px;
+        gap: 20px; /* mai mult spațiu între rânduri */
+        align-items: start; /* forțează aliniere verticală corectă */
+    }
+
+    .grid > div {
+        display: flex;
+        flex-direction: column; /* input și label vertical */
     }
 
     .btn {
-        padding: 14px;
+        padding: 16px;
         font-size: 14px;
     }
 
@@ -181,8 +189,10 @@ tr:hover{background:var(--glass-hover)}
 
     table {
         font-size: 12px;
+        overflow-x: auto; /* scroll orizontal dacă tabelul e mare */
+        display: block;
     }
-}    
+}   
 </style>
 </head>
 <body>
@@ -285,6 +295,7 @@ function calc(){
 </script>
 </body>
 </html>
+
 
 
 
