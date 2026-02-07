@@ -1,0 +1,2140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>GTAlgo Setup Guide | Complete Installation & Configuration Instructions</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-hover: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.12);
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --accent: #0071e3;
+            --accent-glow: rgba(0, 113, 227, 0.3);
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        button, a, .quick-nav-item, .bot-btn, .lang-btn, .copy-btn {
+            -webkit-tap-highlight-color: rgba(0, 113, 227, 0.3);
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        body { 
+            background: var(--bg); 
+            color: var(--text-primary); 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        nav {
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            height: 60px;
+            background: rgba(0, 0, 0, 0.85); 
+            backdrop-filter: blur(40px);
+            border-bottom: 0.5px solid var(--border);
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 100;
+        }
+
+        nav .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .lang-switcher {
+            display: flex;
+            gap: 5px;
+            background: var(--glass);
+            padding: 4px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: rgba(0, 113, 227, 0.2);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .lang-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .lang-btn:active {
+            transform: scale(0.95);
+        }
+
+        .lang-btn.active {
+            background: var(--text-primary);
+            color: #000;
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 100px auto 60px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 60px;
+        }
+
+        .hero-section h1 {
+            font-size: clamp(36px, 6vw, 56px);
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #86868b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-section p {
+            font-size: clamp(16px, 3vw, 20px);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .quick-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+
+        .quick-nav-item {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .quick-nav-item:hover {
+            background: var(--glass-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.2);
+        }
+
+        .quick-nav-item .icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .quick-nav-item .label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .section {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section h2 .icon {
+            font-size: 28px;
+        }
+
+        .section h3 {
+            font-size: 22px;
+            margin: 30px 0 15px;
+            color: var(--accent);
+        }
+
+        .section p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .steps {
+            counter-reset: step-counter;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 35px;
+            counter-increment: step-counter;
+        }
+
+        .step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), #3d9fff);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .step h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .step p {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block code {
+            color: var(--green);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: var(--glass-hover);
+            color: var(--text-primary);
+        }
+
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--yellow);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            gap: 15px;
+            align-items: start;
+        }
+
+        .warning-box .icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .info-box {
+            background: rgba(0, 113, 227, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            gap: 15px;
+            align-items: start;
+        }
+
+        .info-box .icon {
+            font-size: 24px;
+            flex-shrink: 0;
+            color: var(--accent);
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--green);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            gap: 15px;
+            align-items: start;
+        }
+
+        .success-box .icon {
+            font-size: 24px;
+            flex-shrink: 0;
+            color: var(--green);
+        }
+
+        .settings-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        .settings-table th,
+        .settings-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .settings-table th {
+            background: rgba(0, 113, 227, 0.1);
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .settings-table td {
+            color: var(--text-secondary);
+        }
+
+        .settings-table code {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: var(--green);
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 12px;
+        }
+
+        .bot-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .bot-btn {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 16px 18px;
+            border-radius: 12px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            min-height: 50px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: rgba(0, 113, 227, 0.2);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bot-btn {
+                padding: 15px;
+                min-height: auto;
+            }
+        }
+
+        .bot-btn:hover {
+            background: var(--glass-hover);
+            border-color: var(--accent);
+        }
+
+        .bot-btn:active {
+            background: rgba(0, 113, 227, 0.3);
+            border-color: var(--accent);
+            transform: scale(0.98);
+        }
+
+        .bot-btn.active {
+            background: rgba(0, 113, 227, 0.2);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .bot-settings {
+            display: none;
+        }
+
+        .bot-settings.active {
+            display: block;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 20px;
+            }
+            .container {
+                margin-top: 80px;
+            }
+            .section {
+                padding: 25px;
+            }
+            .step {
+                padding-left: 50px;
+            }
+            .settings-table {
+                font-size: 13px;
+            }
+            .bot-selector {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">GTAlgo</a>
+        <div class="lang-switcher">
+            <button class="lang-btn active" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="ro">RO</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div class="hero-section">
+            <h1 class="translatable">Complete Setup Guide</h1>
+            <p class="translatable">Everything you need to install, configure, and optimize your GTAlgo trading bots</p>
+        </div>
+
+        <div class="quick-nav">
+            <div class="quick-nav-item" onclick="scrollToSection('installation')">
+                <div class="icon">📦</div>
+                <div class="label translatable">Installation</div>
+            </div>
+            <div class="quick-nav-item" onclick="scrollToSection('demo')">
+                <div class="icon">🧪</div>
+                <div class="label translatable">Demo Setup</div>
+            </div>
+            <div class="quick-nav-item" onclick="scrollToSection('license')">
+                <div class="icon">🔐</div>
+                <div class="label translatable">License</div>
+            </div>
+            <div class="quick-nav-item" onclick="scrollToSection('backtest')">
+                <div class="icon">📊</div>
+                <div class="label translatable">Backtesting</div>
+            </div>
+            <div class="quick-nav-item" onclick="scrollToSection('settings')">
+                <div class="icon">⚙️</div>
+                <div class="label translatable">Settings</div>
+            </div>
+        </div>
+
+        <!-- INSTALLATION -->
+        <div class="section" id="installation">
+            <h2><span class="icon">📦</span><span class="translatable">MT5 Installation & Setup</span></h2>
+            
+            <div class="info-box">
+                <div class="icon">💡</div>
+                <div>
+                    <strong class="translatable">Before You Start</strong>
+                    <p class="translatable">Make sure you have MetaTrader 5 installed and a trading account (demo or real).</p>
+                </div>
+            </div>
+
+            <h3 class="translatable">Step 1: Download MetaTrader 5</h3>
+            <div class="steps">
+                <div class="step">
+                    <h4 class="translatable">Download MT5</h4>
+                    <p class="translatable">Visit your broker's website or download directly from MetaQuotes:</p>
+                    <div class="code-block">
+                        <code>https://www.metatrader5.com/en/download</code>
+                        <button class="copy-btn translatable" onclick="copyToClipboard('https://www.metatrader5.com/en/download', event)">Copy</button>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Install and Open MT5</h4>
+                    <p class="translatable">Run the installer and follow the on-screen instructions. After installation, open MetaTrader 5.</p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Create/Login to Trading Account</h4>
+                    <p class="translatable">Use your broker credentials to log in, or create a demo account for testing.</p>
+                </div>
+            </div>
+
+            <h3 class="translatable">Step 2: Install Your GTAlgo Bot</h3>
+            <div class="steps">
+                <div class="step">
+                    <h4 class="translatable">Download the EA File</h4>
+                    <p class="translatable">After purchase, download the .ex5 file from your Whop dashboard.</p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Open MT5 Data Folder</h4>
+                    <p class="translatable">In MT5, click: <strong>File → Open Data Folder</strong></p>
+                    <p class="translatable">This opens the MQL5 directory where all expert advisors are stored.</p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Copy the EA File</h4>
+                    <p class="translatable">Navigate to: <code>MQL5 → Experts</code></p>
+                    <p class="translatable">Paste the downloaded .ex5 file into this folder.</p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Restart MT5</h4>
+                    <p class="translatable">Close and reopen MetaTrader 5 to load the new Expert Advisor.</p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Verify Installation</h4>
+                    <p class="translatable">Open the Navigator panel (Ctrl+N), expand "Expert Advisors", and confirm your bot appears in the list.</p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="icon">✅</div>
+                <div>
+                    <strong class="translatable">Installation Complete!</strong>
+                    <p class="translatable">Your GTAlgo bot is now installed and ready to use.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DEMO SETUP -->
+        <div class="section" id="demo">
+            <h2><span class="icon">🧪</span><span class="translatable">Demo Bot Setup</span></h2>
+            
+            <div class="info-box">
+                <div class="icon">ℹ️</div>
+                <div>
+                    <strong class="translatable">What is a Demo Bot?</strong>
+                    <p class="translatable">Demo bots are free, limited versions that allow you to test the strategy in backtest mode before purchasing the full version.</p>
+                </div>
+            </div>
+
+            <h3 class="translatable">How to Use Demo Bots</h3>
+            <div class="steps">
+                <div class="step">
+                    <h4 class="translatable">Download Demo Version</h4>
+                    <p class="translatable">Visit the GTAlgo store and download the demo version of your chosen bot.</p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Install in MT5</h4>
+                    <p class="translatable">Follow the same installation steps as above (File → Open Data Folder → MQL5 → Experts).</p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Use in Strategy Tester</h4>
+                    <p class="translatable">Demo versions can ONLY be used in the Strategy Tester (backtest mode). Press Ctrl+R to open the Strategy Tester and test the bot's performance on historical data.</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="icon">⚠️</div>
+                <div>
+                    <strong class="translatable">Demo Limitations</strong>
+                    <p class="translatable">Demo versions are restricted to backtest mode only. They cannot be used for live or demo account trading. Upgrade to the full or licensed version for complete functionality.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LICENSE SETUP -->
+        <div class="section" id="license">
+            <h2><span class="icon">🔐</span><span class="translatable">License Activation (Licensed Version)</span></h2>
+            
+            <div class="info-box">
+                <div class="icon">🔑</div>
+                <div>
+                    <strong class="translatable">Licensed Bots Only</strong>
+                    <p class="translatable">This section applies only to licensed versions with subscription-based licensing.</p>
+                </div>
+            </div>
+
+            <h3 class="translatable">Step 1: Enable WebRequest in MT5</h3>
+            <div class="steps">
+                <div class="step">
+                    <h4 class="translatable">Open MT5 Options</h4>
+                    <p class="translatable">Go to: <strong>Tools → Options → Expert Advisors</strong></p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Add License URL</h4>
+                    <p class="translatable">Check the box: <strong>"Allow WebRequest for listed URL"</strong></p>
+                    <p class="translatable">Add this URL to the list:</p>
+                    <div class="code-block">
+                        <code>https://ea-license-backend.gtalgo500.workers.dev</code>
+                        <button class="copy-btn translatable" onclick="copyToClipboard('https://ea-license-backend.gtalgo500.workers.dev', event)">Copy</button>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Save and Restart</h4>
+                    <p class="translatable">Click OK and restart MetaTrader 5.</p>
+                </div>
+            </div>
+
+            <h3 class="translatable">Step 2: Configure License in EA Settings</h3>
+            <div class="steps">
+                <div class="step">
+                    <h4 class="translatable">Drag EA to Chart</h4>
+                    <p class="translatable">Drag your licensed bot from Navigator to the chart.</p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Enter License Credentials</h4>
+                    <p class="translatable">In the EA settings window, find the "LICENSE SETTINGS" section and enter:</p>
+                    <ul style="margin-top: 10px; color: var(--text-secondary);">
+                        <li><strong>User Email:</strong> <span class="translatable">The email you used when purchasing</span></li>
+                        <li><strong>License Key:</strong> <span class="translatable">Your unique license key (received via email)</span></li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Enable AutoTrading</h4>
+                    <p class="translatable">Make sure "Allow Algo Trading" is checked, then click OK.</p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Verify License</h4>
+                    <p class="translatable">Check the "Experts" tab in MT5. You should see a success message confirming license validation.</p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="icon">✅</div>
+                <div>
+                    <strong class="translatable">License Active!</strong>
+                    <p class="translatable">Your bot is now licensed and ready to trade. The license will be validated automatically every 30 seconds.</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="icon">⚠️</div>
+                <div>
+                    <strong class="translatable">Troubleshooting</strong>
+                    <p class="translatable">If you see "License validation FAILED", make sure:</p>
+                    <ul style="margin-top: 10px; color: var(--text-secondary);">
+                        <li class="translatable">WebRequest URL is correctly added in MT5 settings</li>
+                        <li class="translatable">Email and License Key are entered exactly as received</li>
+                        <li class="translatable">Your license subscription is active</li>
+                        <li class="translatable">You have an active internet connection</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- BACKTESTING -->
+        <div class="section" id="backtest">
+            <h2><span class="icon">📊</span><span class="translatable">Strategy Backtesting</span></h2>
+            
+            <div class="info-box">
+                <div class="icon">🔬</div>
+                <div>
+                    <strong class="translatable">Why Backtest?</strong>
+                    <p class="translatable">Backtesting allows you to test the bot's performance on historical data before risking real money.</p>
+                </div>
+            </div>
+
+            <h3 class="translatable">How to Run a Backtest</h3>
+            <div class="steps">
+                <div class="step">
+                    <h4 class="translatable">Open Strategy Tester</h4>
+                    <p class="translatable">Press <strong>Ctrl+R</strong> or go to <strong>View → Strategy Tester</strong></p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Configure Test Settings</h4>
+                    <p class="translatable">In the Strategy Tester panel:</p>
+                    <ul style="margin-top: 10px; color: var(--text-secondary);">
+                        <li><strong class="translatable">Expert Advisor:</strong> <span class="translatable">Select your GTAlgo bot</span></li>
+                        <li><strong class="translatable">Symbol:</strong> <span class="translatable">Choose the trading symbol (see recommended settings below)</span></li>
+                        <li><strong class="translatable">Period:</strong> <span class="translatable">Select timeframe (M5, M15, H1, etc.)</span></li>
+                        <li><strong class="translatable">Date Range:</strong> <span class="translatable">Choose testing period (recommended: 1+ year)</span></li>
+                        <li><strong class="translatable">Model:</strong> <span class="translatable">Select "Every tick" for most accurate results</span></li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Adjust EA Parameters</h4>
+                    <p class="translatable">Click "Expert properties" to customize settings like lot size, risk percentage, etc. (see bot-specific settings below).</p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Start the Test</h4>
+                    <p class="translatable">Click the "Start" button and wait for the backtest to complete.</p>
+                </div>
+
+                <div class="step">
+                    <h4 class="translatable">Analyze Results</h4>
+                    <p class="translatable">Review the Results, Graph, and Report tabs to evaluate performance metrics like win rate, profit factor, drawdown, etc.</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="icon">⚠️</div>
+                <div>
+                    <strong class="translatable">Important Notes</strong>
+                    <ul style="margin-top: 10px; color: var(--text-secondary);">
+                        <li class="translatable">Always use high-quality historical data for accurate results</li>
+                        <li class="translatable">Past performance does not guarantee future results</li>
+                        <li class="translatable">Test on multiple timeframes and symbols for validation</li>
+                        <li class="translatable">Use realistic spread and commission settings</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOT SETTINGS -->
+        <div class="section" id="settings">
+            <h2><span class="icon">⚙️</span><span class="translatable">Recommended Bot Settings</span></h2>
+            
+            <p class="translatable">Select a bot below to view its optimized backtest settings:</p>
+
+            <div class="bot-selector">
+                <button class="bot-btn active" onclick="selectBot('nova', this)">GT Nova Pro</button>
+                <button class="bot-btn" onclick="selectBot('titan', this)">GT Titan X</button>
+                <button class="bot-btn" onclick="selectBot('vector', this)">GT Vector Pro</button>
+                <button class="bot-btn" onclick="selectBot('storm', this)">GT Storm X</button>
+                <button class="bot-btn" onclick="selectBot('apex', this)">GT Apex Pro</button>
+            </div>
+
+            <!-- GT NOVA PRO -->
+            <div class="bot-settings active" id="nova-settings">
+                <h3>GT Nova Pro - <span class="translatable">Recommended Settings</span></h3>
+                
+                <div class="info-box">
+                    <div class="icon">📈</div>
+                    <div>
+                        <strong class="translatable">Strategy Type:</strong> <span class="translatable">Scalping & Mean Reversion</span><br>
+                        <strong class="translatable">Best Symbols:</strong> US500 (D1), US30 (H12)<br>
+                        <strong class="translatable">Recommended Balance:</strong> $1,000+
+                    </div>
+                </div>
+
+                <div class="bot-selector">
+                    <button class="bot-btn active" onclick="selectNovaSymbol('us500', this)">US500 (D1)</button>
+                    <button class="bot-btn" onclick="selectNovaSymbol('us30', this)">US30 (H12)</button>
+                </div>
+
+                <!-- US500 D1 Settings -->
+                <div class="nova-symbol-settings" id="nova-us500" style="display: block;">
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>RSI Period</td>
+                                <td><code>2</code></td>
+                                <td>RSI calculation period</td>
+                            </tr>
+                            <tr>
+                                <td>SMA Period</td>
+                                <td><code>50</code></td>
+                                <td>Simple moving average period</td>
+                            </tr>
+                            <tr>
+                                <td>EMA Period</td>
+                                <td><code>5</code></td>
+                                <td>Exponential moving average period</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Loss %</td>
+                                <td><code>5.0</code></td>
+                                <td class="translatable">Risk per trade (percentage)</td>
+                            </tr>
+                            <tr>
+                                <td>Max Slippage Points</td>
+                                <td><code>50</code></td>
+                                <td class="translatable">Maximum acceptable slippage (pips)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- US30 H12 Settings -->
+                <div class="nova-symbol-settings" id="nova-us30" style="display: none;">
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>RSI Period</td>
+                                <td><code>2</code></td>
+                                <td>RSI calculation period</td>
+                            </tr>
+                            <tr>
+                                <td>SMA Period</td>
+                                <td><code>115</code></td>
+                                <td>Simple moving average period</td>
+                            </tr>
+                            <tr>
+                                <td>EMA Period</td>
+                                <td><code>2</code></td>
+                                <td>Exponential moving average period</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Loss %</td>
+                                <td><code>13.0</code></td>
+                                <td class="translatable">Risk per trade (percentage)</td>
+                            </tr>
+                            <tr>
+                                <td>Max Slippage Points</td>
+                                <td><code>50</code></td>
+                                <td class="translatable">Maximum acceptable slippage (pips)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- GT TITAN X -->
+            <div class="bot-settings" id="titan-settings">
+                <h3>GT Titan X - <span class="translatable">Recommended Settings</span></h3>
+                
+                <div class="info-box">
+                    <div class="icon">📈</div>
+                    <div>
+                        <strong class="translatable">Strategy Type:</strong> GTAlgo - <span class="translatable">Scalping & Mean Reversion</span><br>
+                        <strong class="translatable">Best Symbols:</strong> US500 (M5)<br>
+                        <strong class="translatable">Recommended Balance:</strong> $2,000+
+                    </div>
+                </div>
+
+                <table class="settings-table">
+                    <thead>
+                        <tr>
+                            <th class="translatable">Parameter</th>
+                            <th class="translatable">Recommended Value</th>
+                            <th class="translatable">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Timeframe</td>
+                            <td><code>M5</code></td>
+                            <td class="translatable">5-minute chart for analysis</td>
+                        </tr>
+                        <tr>
+                            <td>Stop Loss %</td>
+                            <td><code>8</code></td>
+                            <td class="translatable">Maximum risk per trade</td>
+                        </tr>
+                        <tr>
+                            <td>MA Period</td>
+                            <td><code>50</code></td>
+                            <td class="translatable">Moving average calculation period</td>
+                        </tr>
+                        <tr>
+                            <td>Percentile Level</td>
+                            <td><code>10</code></td>
+                            <td class="translatable">Entry filter threshold (%)</td>
+                        </tr>
+                        <tr>
+                            <td>Percentile Bars</td>
+                            <td><code>900</code></td>
+                            <td class="translatable">Lookback period for percentile</td>
+                        </tr>
+                        <tr>
+                            <td>Max Slippage</td>
+                            <td><code>50</code></td>
+                            <td class="translatable">Maximum acceptable slippage (pips)</td>
+                        </tr>
+                        <tr>
+                            <td>Close Hour</td>
+                            <td><code>22</code></td>
+                            <td class="translatable">Auto-close positions at 22:00</td>
+                        </tr>
+                        <tr>
+                            <td>One Trade Per Day</td>
+                            <td><code>true</code></td>
+                            <td class="translatable">Limit to one position per day</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- GT VECTOR PRO -->
+            <div class="bot-settings" id="vector-settings">
+                <h3>GT Vector Pro - <span class="translatable">Recommended Settings</span></h3>
+                
+                <div class="info-box">
+                    <div class="icon">📈</div>
+                    <div>
+                        <strong class="translatable">Strategy Type:</strong> <span class="translatable">Momentum Analysis (CCI, EMA, Linear Regression)</span><br>
+                        <strong class="translatable">Best Symbols:</strong> XAU/Gold (H3), BTC (H3), NAS100 (H3), USDJPY (H3)<br>
+                        <strong class="translatable">Recommended Balance:</strong> $1,500+
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <div class="icon">💡</div>
+                    <div>
+                        <strong>Important:</strong> Vector Pro has specific optimized parameters for each symbol. Select your symbol below:
+                    </div>
+                </div>
+
+                <div class="bot-selector" style="margin-top: 20px;">
+                    <button class="bot-btn active" onclick="selectVectorSymbol('xau', this)">XAU (Gold)</button>
+                    <button class="bot-btn" onclick="selectVectorSymbol('btc', this)">BTC</button>
+                    <button class="bot-btn" onclick="selectVectorSymbol('nas100', this)">NAS100</button>
+                    <button class="bot-btn" onclick="selectVectorSymbol('usdjpy', this)">USDJPY</button>
+                </div>
+
+                <!-- XAU Settings -->
+                <div id="vector-xau" class="vector-symbol-settings" style="display: block;">
+                    <h4 style="margin-top: 20px; color: var(--accent);">XAU (Gold) - H3</h4>
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Timeframe</td>
+                                <td><code>H3</code></td>
+                                <td class="translatable">3-hour chart for analysis</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Loss %</td>
+                                <td><code>3.0</code></td>
+                                <td class="translatable">Risk percentage per trade</td>
+                            </tr>
+                            <tr>
+                                <td>CCI Period</td>
+                                <td><code>12</code></td>
+                                <td class="translatable">Commodity Channel Index period</td>
+                            </tr>
+                            <tr>
+                                <td>EMA Period</td>
+                                <td><code>150</code></td>
+                                <td class="translatable">Exponential moving average period</td>
+                            </tr>
+                            <tr>
+                                <td>LinReg Period</td>
+                                <td><code>86</code></td>
+                                <td class="translatable">Linear Regression period</td>
+                            </tr>
+                            <tr>
+                                <td>Exit After Bars (Long)</td>
+                                <td><code>10</code></td>
+                                <td class="translatable">Exit long positions after X bars</td>
+                            </tr>
+                            <tr>
+                                <td>Exit After Bars (Short)</td>
+                                <td><code>13</code></td>
+                                <td class="translatable">Exit short positions after X bars</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- BTC Settings -->
+                <div id="vector-btc" class="vector-symbol-settings" style="display: none;">
+                    <h4 style="margin-top: 20px; color: var(--accent);">BTC - H3</h4>
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Timeframe</td>
+                                <td><code>H3</code></td>
+                                <td class="translatable">3-hour chart for analysis</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Loss %</td>
+                                <td><code>1.5</code></td>
+                                <td class="translatable">Risk percentage per trade</td>
+                            </tr>
+                            <tr>
+                                <td>CCI Period</td>
+                                <td><code>16</code></td>
+                                <td class="translatable">Commodity Channel Index period</td>
+                            </tr>
+                            <tr>
+                                <td>EMA Period</td>
+                                <td><code>250</code></td>
+                                <td class="translatable">Exponential moving average period</td>
+                            </tr>
+                            <tr>
+                                <td>LinReg Period</td>
+                                <td><code>76</code></td>
+                                <td class="translatable">Linear Regression period</td>
+                            </tr>
+                            <tr>
+                                <td>Exit After Bars (Long)</td>
+                                <td><code>17</code></td>
+                                <td class="translatable">Exit long positions after X bars</td>
+                            </tr>
+                            <tr>
+                                <td>Exit After Bars (Short)</td>
+                                <td><code>5</code></td>
+                                <td class="translatable">Exit short positions after X bars</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- NAS100 Settings -->
+                <div id="vector-nas100" class="vector-symbol-settings" style="display: none;">
+                    <h4 style="margin-top: 20px; color: var(--accent);">NAS100 - H3</h4>
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Timeframe</td>
+                                <td><code>H3</code></td>
+                                <td class="translatable">3-hour chart for analysis</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Loss %</td>
+                                <td><code>2.0</code></td>
+                                <td class="translatable">Risk percentage per trade</td>
+                            </tr>
+                            <tr>
+                                <td>CCI Period</td>
+                                <td><code>4</code></td>
+                                <td class="translatable">Commodity Channel Index period</td>
+                            </tr>
+                            <tr>
+                                <td>EMA Period</td>
+                                <td><code>275</code></td>
+                                <td class="translatable">Exponential moving average period</td>
+                            </tr>
+                            <tr>
+                                <td>LinReg Period</td>
+                                <td><code>96</code></td>
+                                <td class="translatable">Linear Regression period</td>
+                            </tr>
+                            <tr>
+                                <td>Exit After Bars (Long)</td>
+                                <td><code>3</code></td>
+                                <td class="translatable">Exit long positions after X bars</td>
+                            </tr>
+                            <tr>
+                                <td>Exit After Bars (Short)</td>
+                                <td><code>15</code></td>
+                                <td class="translatable">Exit short positions after X bars</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- USDJPY Settings -->
+                <div id="vector-usdjpy" class="vector-symbol-settings" style="display: none;">
+                    <h4 style="margin-top: 20px; color: var(--accent);">USDJPY - H3</h4>
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Timeframe</td>
+                                <td><code>H3</code></td>
+                                <td class="translatable">3-hour chart for analysis</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Loss %</td>
+                                <td><code>0.5</code></td>
+                                <td class="translatable">Risk percentage per trade</td>
+                            </tr>
+                            <tr>
+                                <td>CCI Period</td>
+                                <td><code>4</code></td>
+                                <td class="translatable">Commodity Channel Index period</td>
+                            </tr>
+                            <tr>
+                                <td>EMA Period</td>
+                                <td><code>75</code></td>
+                                <td class="translatable">Exponential moving average period</td>
+                            </tr>
+                            <tr>
+                                <td>LinReg Period</td>
+                                <td><code>72</code></td>
+                                <td class="translatable">Linear Regression period</td>
+                            </tr>
+                            <tr>
+                                <td>Exit After Bars (Long)</td>
+                                <td><code>4</code></td>
+                                <td class="translatable">Exit long positions after X bars</td>
+                            </tr>
+                            <tr>
+                                <td>Exit After Bars (Short)</td>
+                                <td><code>11</code></td>
+                                <td class="translatable">Exit short positions after X bars</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- GT STORM X -->
+            <div class="bot-settings" id="storm-settings">
+                <h3>GT Storm X - <span class="translatable">Recommended Settings</span></h3>
+                
+                <div class="info-box">
+                    <div class="icon">📈</div>
+                    <div>
+                        <strong class="translatable">Strategy Type:</strong> <span class="translatable">Vortex Indicator System</span><br>
+                        <strong class="translatable">Best Symbols:</strong> NAS100 (H1), US30 (H1), GER40 (H1)<br>
+                        <strong class="translatable">Recommended Balance:</strong> $1,000+
+                    </div>
+                </div>
+
+                <div class="bot-selector" style="margin-top: 20px;">
+                    <button class="bot-btn active" onclick="selectStormSymbol('us30', this)">US30</button>
+                    <button class="bot-btn" onclick="selectStormSymbol('ger40', this)">GER40</button>
+                    <button class="bot-btn" onclick="selectStormSymbol('nas100', this)">NAS100</button>
+                </div>
+
+                <!-- US30 Storm X Settings -->
+                <div class="storm-symbol-settings" id="storm-us30" style="display: block;">
+                    <h4 style="margin-top: 20px; color: var(--accent);">US30 - H1</h4>
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Timeframe</td>
+                                <td><code>H1</code></td>
+                                <td class="translatable">1-hour chart for analysis</td>
+                            </tr>
+                            <tr>
+                                <td>Vortex Period</td>
+                                <td><code>31</code></td>
+                                <td class="translatable">Vortex Indicator calculation period</td>
+                            </tr>
+                            <tr>
+                                <td>Profit Target Coef</td>
+                                <td><code>5</code></td>
+                                <td class="translatable">Profit target coefficient</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Loss Coef</td>
+                                <td><code>8.0</code></td>
+                                <td class="translatable">Stop loss coefficient</td>
+                            </tr>
+                            <tr>
+                                <td>Trailing Stop Coef</td>
+                                <td><code>7.5</code></td>
+                                <td class="translatable">Trailing stop coefficient</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- GER40 Storm X Settings -->
+                <div class="storm-symbol-settings" id="storm-ger40" style="display: none;">
+                    <h4 style="margin-top: 20px; color: var(--accent);">GER40 - H1</h4>
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Timeframe</td>
+                                <td><code>H1</code></td>
+                                <td class="translatable">1-hour chart for analysis</td>
+                            </tr>
+                            <tr>
+                                <td>Vortex Period</td>
+                                <td><code>11</code></td>
+                                <td class="translatable">Vortex Indicator calculation period</td>
+                            </tr>
+                            <tr>
+                                <td>Profit Target Coef</td>
+                                <td><code>15</code></td>
+                                <td class="translatable">Profit target coefficient</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Loss Coef</td>
+                                <td><code>4.5</code></td>
+                                <td class="translatable">Stop loss coefficient</td>
+                            </tr>
+                            <tr>
+                                <td>Trailing Stop Coef</td>
+                                <td><code>1.5</code></td>
+                                <td class="translatable">Trailing stop coefficient</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- NAS100 Storm X Settings -->
+                <div class="storm-symbol-settings" id="storm-nas100" style="display: none;">
+                    <h4 style="margin-top: 20px; color: var(--accent);">NAS100 - H1</h4>
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Timeframe</td>
+                                <td><code>H1</code></td>
+                                <td class="translatable">1-hour chart for analysis</td>
+                            </tr>
+                            <tr>
+                                <td>Vortex Period</td>
+                                <td><code>23</code></td>
+                                <td class="translatable">Vortex Indicator calculation period</td>
+                            </tr>
+                            <tr>
+                                <td>Profit Target Coef</td>
+                                <td><code>9</code></td>
+                                <td class="translatable">Profit target coefficient</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Loss Coef</td>
+                                <td><code>4.5</code></td>
+                                <td class="translatable">Stop loss coefficient</td>
+                            </tr>
+                            <tr>
+                                <td>Trailing Stop Coef</td>
+                                <td><code>3.0</code></td>
+                                <td class="translatable">Trailing stop coefficient</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- GT APEX PRO -->
+            <div class="bot-settings" id="apex-settings">
+                <h3>GT Apex Pro - <span class="translatable">Recommended Settings</span></h3>
+                
+                <div class="info-box">
+                    <div class="icon">📈</div>
+                    <div>
+                        <strong class="translatable">Strategy Type:</strong> <span class="translatable">Breakout System</span><br>
+                        <strong class="translatable">Best Symbols:</strong> Gold (M15, H1), USD/JPY (M30), US100 (M30)<br>
+                        <strong class="translatable">Recommended Balance:</strong> $1,500+
+                    </div>
+                </div>
+
+                <div class="bot-selector">
+                    <button class="bot-btn active" onclick="selectApexSymbol('gold-m15', this)">Gold M15</button>
+                    <button class="bot-btn" onclick="selectApexSymbol('gold-h1', this)">Gold H1</button>
+                    <button class="bot-btn" onclick="selectApexSymbol('usdjpy-m30', this)">USDJPY M30</button>
+                    <button class="bot-btn" onclick="selectApexSymbol('us100-m30', this)">US100 M30</button>
+                </div>
+
+                <!-- Gold M15 Settings -->
+                <div class="apex-symbol-settings" id="apex-gold-m15" style="display: block;">
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Custom Comment</td>
+                                <td><code>GT-ApexProXau15m-Demo</code></td>
+                                <td>Trade comment identifier</td>
+                            </tr>
+                            <tr>
+                                <td>Range Ending Hour</td>
+                                <td><code>23</code></td>
+                                <td>Hour when range ends</td>
+                            </tr>
+                            <tr>
+                                <td>Range Ending Minute</td>
+                                <td><code>0</code></td>
+                                <td>Minute when range ends</td>
+                            </tr>
+                            <tr>
+                                <td>Bars In Range</td>
+                                <td><code>70</code></td>
+                                <td>Number of bars to define range</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Offset (Pips)</td>
+                                <td><code>19</code></td>
+                                <td>Stop loss offset in pips</td>
+                            </tr>
+                            <tr>
+                                <td>Bars Valid</td>
+                                <td><code>70</code></td>
+                                <td>Period for which bars are valid</td>
+                            </tr>
+                            <tr>
+                                <td>Move SL to BE</td>
+                                <td><code>150</code></td>
+                                <td>Move stop loss to breakeven at this profit</td>
+                            </tr>
+                            <tr>
+                                <td>MM Lots</td>
+                                <td><code>0.1</code></td>
+                                <td>Lot size for money management</td>
+                            </tr>
+                            <tr>
+                                <td>Timeframe</td>
+                                <td><code>M15</code></td>
+                                <td>15-minute chart</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Gold H1 Settings -->
+                <div class="apex-symbol-settings" id="apex-gold-h1" style="display: none;">
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Custom Comment</td>
+                                <td><code>GT-ApexProXau1h-Demo</code></td>
+                                <td>Trade comment identifier</td>
+                            </tr>
+                            <tr>
+                                <td>Range Ending Hour</td>
+                                <td><code>20</code></td>
+                                <td>Hour when range ends</td>
+                            </tr>
+                            <tr>
+                                <td>Range Ending Minute</td>
+                                <td><code>0</code></td>
+                                <td>Minute when range ends</td>
+                            </tr>
+                            <tr>
+                                <td>Bars In Range</td>
+                                <td><code>85</code></td>
+                                <td>Number of bars to define range</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Offset (Pips)</td>
+                                <td><code>20</code></td>
+                                <td>Stop loss offset in pips</td>
+                            </tr>
+                            <tr>
+                                <td>Bars Valid</td>
+                                <td><code>5</code></td>
+                                <td>Period for which bars are valid</td>
+                            </tr>
+                            <tr>
+                                <td>Move SL to BE</td>
+                                <td><code>175</code></td>
+                                <td>Move stop loss to breakeven at this profit</td>
+                            </tr>
+                            <tr>
+                                <td>MM Lots</td>
+                                <td><code>0.1</code></td>
+                                <td>Lot size for money management</td>
+                            </tr>
+                            <tr>
+                                <td>Timeframe</td>
+                                <td><code>H1</code></td>
+                                <td>1-hour chart</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- USDJPY M30 Settings -->
+                <div class="apex-symbol-settings" id="apex-usdjpy-m30" style="display: none;">
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Custom Comment</td>
+                                <td><code>GT-ApexProJpy30m-Demo</code></td>
+                                <td>Trade comment identifier</td>
+                            </tr>
+                            <tr>
+                                <td>Range Ending Hour</td>
+                                <td><code>23</code></td>
+                                <td>Hour when range ends</td>
+                            </tr>
+                            <tr>
+                                <td>Range Ending Minute</td>
+                                <td><code>0</code></td>
+                                <td>Minute when range ends</td>
+                            </tr>
+                            <tr>
+                                <td>Bars In Range</td>
+                                <td><code>90</code></td>
+                                <td>Number of bars to define range</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Offset (Pips)</td>
+                                <td><code>17</code></td>
+                                <td>Stop loss offset in pips</td>
+                            </tr>
+                            <tr>
+                                <td>Bars Valid</td>
+                                <td><code>65</code></td>
+                                <td>Period for which bars are valid</td>
+                            </tr>
+                            <tr>
+                                <td>Move SL to BE</td>
+                                <td><code>200</code></td>
+                                <td>Move stop loss to breakeven at this profit</td>
+                            </tr>
+                            <tr>
+                                <td>MM Lots</td>
+                                <td><code>0.1</code></td>
+                                <td>Lot size for money management</td>
+                            </tr>
+                            <tr>
+                                <td>Timeframe</td>
+                                <td><code>M30</code></td>
+                                <td>30-minute chart</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- US100 M30 Settings -->
+                <div class="apex-symbol-settings" id="apex-us100-m30" style="display: none;">
+                    <table class="settings-table">
+                        <thead>
+                            <tr>
+                                <th class="translatable">Parameter</th>
+                                <th class="translatable">Recommended Value</th>
+                                <th class="translatable">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Custom Comment</td>
+                                <td><code>GT-ApexProNas10030m-Demo</code></td>
+                                <td>Trade comment identifier</td>
+                            </tr>
+                            <tr>
+                                <td>Range Ending Hour</td>
+                                <td><code>23</code></td>
+                                <td>Hour when range ends</td>
+                            </tr>
+                            <tr>
+                                <td>Range Ending Minute</td>
+                                <td><code>0</code></td>
+                                <td>Minute when range ends</td>
+                            </tr>
+                            <tr>
+                                <td>Bars In Range</td>
+                                <td><code>80</code></td>
+                                <td>Number of bars to define range</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Offset (Pips)</td>
+                                <td><code>16</code></td>
+                                <td>Stop loss offset in pips</td>
+                            </tr>
+                            <tr>
+                                <td>Bars Valid</td>
+                                <td><code>30</code></td>
+                                <td>Period for which bars are valid</td>
+                            </tr>
+                            <tr>
+                                <td>Move SL to BE</td>
+                                <td><code>175</code></td>
+                                <td>Move stop loss to breakeven at this profit</td>
+                            </tr>
+                            <tr>
+                                <td>MM Lots</td>
+                                <td><code>0.1</code></td>
+                                <td>Lot size for money management</td>
+                            </tr>
+                            <tr>
+                                <td>Timeframe</td>
+                                <td><code>M30</code></td>
+                                <td>30-minute chart</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="icon">⚠️</div>
+                <div>
+                    <strong class="translatable">Risk Disclaimer</strong>
+                    <p class="translatable">These settings are recommendations based on historical backtesting. Always adjust parameters according to your account balance and risk tolerance. Trading involves substantial risk of loss.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUPPORT SECTION -->
+        <div class="section">
+            <h2><span class="icon">💬</span><span class="translatable">Support & Resources</span></h2>
+            
+            <div class="info-box">
+                <div class="icon">📧</div>
+                <div>
+                    <strong class="translatable">Need Help?</strong>
+                    <p class="translatable">If you encounter any issues or have questions, reach out through:</p>
+                    <ul style="margin-top: 10px; color: var(--text-secondary);">
+                        <li><strong>Email:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7704020707180503371003161b10185914181a">[email&#160;protected]</a></li>
+                        <li><strong>Whop Community:</strong> <span class="translatable">Access via your Whop dashboard</span></li>
+                        <li><strong>Website:</strong> https://www.gtalgo.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="icon">🎓</div>
+                <div>
+                    <strong class="translatable">Pro Tips</strong>
+                    <ul style="margin-top: 10px; color: var(--text-secondary);">
+                        <li class="translatable">Always start with a demo account to familiarize yourself with the bot</li>
+                        <li class="translatable">Monitor your bot's performance regularly and adjust settings as needed</li>
+                        <li class="translatable">Never risk more than 2-3% of your account on a single trade</li>
+                        <li class="translatable">Diversify across multiple strategies and symbols for better risk management</li>
+                        <li class="translatable">Keep your MetaTrader 5 platform updated to the latest version</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2025 GTAlgo by Sandu Gymy. <span class="translatable">All rights reserved.</span></p>
+        <p class="translatable">Professional trading bots for MetaTrader 5</p>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Language Translations
+        const translations = {
+            en: {
+                'Complete Setup Guide': 'Complete Setup Guide',
+                'Everything you need to install, configure, and optimize your GTAlgo trading bots': 'Everything you need to install, configure, and optimize your GTAlgo trading bots',
+                'Installation': 'Installation',
+                'Demo Setup': 'Demo Setup',
+                'License': 'License',
+                'Backtesting': 'Backtesting',
+                'Settings': 'Settings',
+                'MT5 Installation & Setup': 'MT5 Installation & Setup',
+                'Before You Start': 'Before You Start',
+                'Make sure you have MetaTrader 5 installed and a trading account (demo or real).': 'Make sure you have MetaTrader 5 installed and a trading account (demo or real).',
+                'Step 1: Download MetaTrader 5': 'Step 1: Download MetaTrader 5',
+                'Download MT5': 'Download MT5',
+                'Visit your broker\'s website or download directly from MetaQuotes:': 'Visit your broker\'s website or download directly from MetaQuotes:',
+                'Copy': 'Copy',
+                'Install and Open MT5': 'Install and Open MT5',
+                'Run the installer and follow the on-screen instructions. After installation, open MetaTrader 5.': 'Run the installer and follow the on-screen instructions. After installation, open MetaTrader 5.',
+                'Create/Login to Trading Account': 'Create/Login to Trading Account',
+                'Use your broker credentials to log in, or create a demo account for testing.': 'Use your broker credentials to log in, or create a demo account for testing.',
+                'Step 2: Install Your GTAlgo Bot': 'Step 2: Install Your GTAlgo Bot',
+                'Download the EA File': 'Download the EA File',
+                'After purchase, download the .ex5 file from your Whop dashboard.': 'After purchase, download the .ex5 file from your Whop dashboard.',
+                'Open MT5 Data Folder': 'Open MT5 Data Folder',
+                'In MT5, click: <strong>File → Open Data Folder</strong>': 'In MT5, click: <strong>File → Open Data Folder</strong>',
+                'This opens the MQL5 directory where all expert advisors are stored.': 'This opens the MQL5 directory where all expert advisors are stored.',
+                'Copy the EA File': 'Copy the EA File',
+                'Navigate to: <code>MQL5 → Experts</code>': 'Navigate to: <code>MQL5 → Experts</code>',
+                'Paste the downloaded .ex5 file into this folder.': 'Paste the downloaded .ex5 file into this folder.',
+                'Restart MT5': 'Restart MT5',
+                'Close and reopen MetaTrader 5 to load the new Expert Advisor.': 'Close and reopen MetaTrader 5 to load the new Expert Advisor.',
+                'Verify Installation': 'Verify Installation',
+                'Open the Navigator panel (Ctrl+N), expand "Expert Advisors", and confirm your bot appears in the list.': 'Open the Navigator panel (Ctrl+N), expand "Expert Advisors", and confirm your bot appears in the list.',
+                'Installation Complete!': 'Installation Complete!',
+                'Your GTAlgo bot is now installed and ready to use.': 'Your GTAlgo bot is now installed and ready to use.',
+                'Demo Bot Setup': 'Demo Bot Setup',
+                'What is a Demo Bot?': 'What is a Demo Bot?',
+                'Demo bots are free, limited versions that allow you to test the strategy in backtest mode before purchasing the full version.': 'Demo bots are free, limited versions that allow you to test the strategy in backtest mode before purchasing the full version.',
+                'How to Use Demo Bots': 'How to Use Demo Bots',
+                'Download Demo Version': 'Download Demo Version',
+                'Visit the GTAlgo store and download the demo version of your chosen bot.': 'Visit the GTAlgo store and download the demo version of your chosen bot.',
+                'Install in MT5': 'Install in MT5',
+                'Follow the same installation steps as above (File → Open Data Folder → MQL5 → Experts).': 'Follow the same installation steps as above (File → Open Data Folder → MQL5 → Experts).',
+                'Use in Strategy Tester': 'Use in Strategy Tester',
+                'Demo versions can ONLY be used in the Strategy Tester (backtest mode). Press Ctrl+R to open the Strategy Tester and test the bot\'s performance on historical data.': 'Demo versions can ONLY be used in the Strategy Tester (backtest mode). Press Ctrl+R to open the Strategy Tester and test the bot\'s performance on historical data.',
+                'Demo Limitations': 'Demo Limitations',
+                'Demo versions are restricted to backtest mode only. They cannot be used for live or demo account trading. Upgrade to the full or licensed version for complete functionality.': 'Demo versions are restricted to backtest mode only. They cannot be used for live or demo account trading. Upgrade to the full or licensed version for complete functionality.',
+                'License Activation (Licensed Version)': 'License Activation (Licensed Version)',
+                'Licensed Bots Only': 'Licensed Bots Only',
+                'This section applies only to licensed versions with subscription-based licensing.': 'This section applies only to licensed versions with subscription-based licensing.',
+                'Step 1: Enable WebRequest in MT5': 'Step 1: Enable WebRequest in MT5',
+                'Open MT5 Options': 'Open MT5 Options',
+                'Go to: <strong>Tools → Options → Expert Advisors</strong>': 'Go to: <strong>Tools → Options → Expert Advisors</strong>',
+                'Add License URL': 'Add License URL',
+                'Check the box: <strong>"Allow WebRequest for listed URL"</strong>': 'Check the box: <strong>"Allow WebRequest for listed URL"</strong>',
+                'Add this URL to the list:': 'Add this URL to the list:',
+                'Save and Restart': 'Save and Restart',
+                'Click OK and restart MetaTrader 5.': 'Click OK and restart MetaTrader 5.',
+                'Step 2: Configure License in EA Settings': 'Step 2: Configure License in EA Settings',
+                'Drag EA to Chart': 'Drag EA to Chart',
+                'Drag your licensed bot from Navigator to the chart.': 'Drag your licensed bot from Navigator to the chart.',
+                'Enter License Credentials': 'Enter License Credentials',
+                'In the EA settings window, find the "LICENSE SETTINGS" section and enter:': 'In the EA settings window, find the "LICENSE SETTINGS" section and enter:',
+                'The email you used when purchasing': 'The email you used when purchasing',
+                'Your unique license key (received via email)': 'Your unique license key (received via email)',
+                'Make sure "Allow Algo Trading" is checked, then click OK.': 'Make sure "Allow Algo Trading" is checked, then click OK.',
+                'Verify License': 'Verify License',
+                'Check the "Experts" tab in MT5. You should see a success message confirming license validation.': 'Check the "Experts" tab in MT5. You should see a success message confirming license validation.',
+                'License Active!': 'License Active!',
+                'Your bot is now licensed and ready to trade. The license will be validated automatically every 30 seconds.': 'Your bot is now licensed and ready to trade. The license will be validated automatically every 30 seconds.',
+                'Troubleshooting': 'Troubleshooting',
+                'If you see "License validation FAILED", make sure:': 'If you see "License validation FAILED", make sure:',
+                'WebRequest URL is correctly added in MT5 settings': 'WebRequest URL is correctly added in MT5 settings',
+                'Email and License Key are entered exactly as received': 'Email and License Key are entered exactly as received',
+                'Your license subscription is active': 'Your license subscription is active',
+                'You have an active internet connection': 'You have an active internet connection',
+                'Strategy Backtesting': 'Strategy Backtesting',
+                'Why Backtest?': 'Why Backtest?',
+                'Backtesting allows you to test the bot\'s performance on historical data before risking real money.': 'Backtesting allows you to test the bot\'s performance on historical data before risking real money.',
+                'How to Run a Backtest': 'How to Run a Backtest',
+                'Open Strategy Tester': 'Open Strategy Tester',
+                'Press <strong>Ctrl+R</strong> or go to <strong>View → Strategy Tester</strong>': 'Press <strong>Ctrl+R</strong> or go to <strong>View → Strategy Tester</strong>',
+                'Configure Test Settings': 'Configure Test Settings',
+                'In the Strategy Tester panel:': 'In the Strategy Tester panel:',
+                'Select your GTAlgo bot': 'Select your GTAlgo bot',
+                'Choose the trading symbol (see recommended settings below)': 'Choose the trading symbol (see recommended settings below)',
+                'Select timeframe (M5, M15, H1, etc.)': 'Select timeframe (M5, M15, H1, etc.)',
+                'Choose testing period (recommended: 1+ year)': 'Choose testing period (recommended: 1+ year)',
+                'Select "Every tick" for most accurate results': 'Select "Every tick" for most accurate results',
+                'Adjust EA Parameters': 'Adjust EA Parameters',
+                'Click "Expert properties" to customize settings like lot size, risk percentage, etc. (see bot-specific settings below).': 'Click "Expert properties" to customize settings like lot size, risk percentage, etc. (see bot-specific settings below).',
+                'Start the Test': 'Start the Test',
+                'Click the "Start" button and wait for the backtest to complete.': 'Click the "Start" button and wait for the backtest to complete.',
+                'Analyze Results': 'Analyze Results',
+                'Review the Results, Graph, and Report tabs to evaluate performance metrics like win rate, profit factor, drawdown, etc.': 'Review the Results, Graph, and Report tabs to evaluate performance metrics like win rate, profit factor, drawdown, etc.',
+                'Important Notes': 'Important Notes',
+                'Always use high-quality historical data for accurate results': 'Always use high-quality historical data for accurate results',
+                'Past performance does not guarantee future results': 'Past performance does not guarantee future results',
+                'Test on multiple timeframes and symbols for validation': 'Test on multiple timeframes and symbols for validation',
+                'Use realistic spread and commission settings': 'Use realistic spread and commission settings',
+                'Recommended Bot Settings': 'Recommended Bot Settings',
+                'Select a bot below to view its optimized backtest settings:': 'Select a bot below to view its optimized backtest settings:',
+                'Recommended Settings': 'Recommended Settings',
+                'Strategy Type:': 'Strategy Type:',
+                'Scalping & Mean Reversion': 'Scalping & Mean Reversion',
+                'Best Symbols:': 'Best Symbols:',
+                'Recommended Balance:': 'Recommended Balance:',
+                'Parameter': 'Parameter',
+                'Recommended Value': 'Recommended Value',
+                'Description': 'Description',
+                'Risk per trade (percentage)': 'Risk per trade (percentage)',
+                'Moving average calculation period': 'Moving average calculation period',
+                'Entry filter threshold': 'Entry filter threshold',
+                'Lookback period for percentile': 'Lookback period for percentile',
+                'Auto-close positions at this hour': 'Auto-close positions at this hour',
+                'Limit to one position per day': 'Limit to one position per day',
+                'Maximum risk per trade': 'Maximum risk per trade',
+                'Entry filter threshold (%)': 'Entry filter threshold (%)',
+                'Maximum acceptable slippage (pips)': 'Maximum acceptable slippage (pips)',
+                'Auto-close positions at 22:00': 'Auto-close positions at 22:00',
+                '5-minute chart for analysis': '5-minute chart for analysis',
+                'Momentum Analysis (CCI, EMA, Linear Regression)': 'Momentum Analysis (CCI, EMA, Linear Regression)',
+                '3-hour chart for analysis': '3-hour chart for analysis',
+                'Risk percentage per trade': 'Risk percentage per trade',
+                'Commodity Channel Index period': 'Commodity Channel Index period',
+                'Exponential moving average period': 'Exponential moving average period',
+                'Linear Regression period': 'Linear Regression period',
+                'Exit long positions after X bars': 'Exit long positions after X bars',
+                'Exit short positions after X bars': 'Exit short positions after X bars',
+                'Vortex Indicator System': 'Vortex Indicator System',
+                '1-hour chart for analysis': '1-hour chart for analysis',
+                'Vortex Indicator calculation period': 'Vortex Indicator calculation period',
+                'Profit target coefficient': 'Profit target coefficient',
+                'Stop loss coefficient': 'Stop loss coefficient',
+                'Trailing stop coefficient': 'Trailing stop coefficient',
+                'Breakout System': 'Breakout System',
+                'Volatility expansion multiplier': 'Volatility expansion multiplier',
+                'Bars to detect consolidation': 'Bars to detect consolidation',
+                'Enable false signal filtering': 'Enable false signal filtering',
+                'Risk Disclaimer': 'Risk Disclaimer',
+                'These settings are recommendations based on historical backtesting. Always adjust parameters according to your account balance and risk tolerance. Trading involves substantial risk of loss.': 'These settings are recommendations based on historical backtesting. Always adjust parameters according to your account balance and risk tolerance. Trading involves substantial risk of loss.',
+                'Support & Resources': 'Support & Resources',
+                'Need Help?': 'Need Help?',
+                'If you encounter any issues or have questions, reach out through:': 'If you encounter any issues or have questions, reach out through:',
+                'Access via your Whop dashboard': 'Access via your Whop dashboard',
+                'Pro Tips': 'Pro Tips',
+                'Always start with a demo account to familiarize yourself with the bot': 'Always start with a demo account to familiarize yourself with the bot',
+                'Monitor your bot\'s performance regularly and adjust settings as needed': 'Monitor your bot\'s performance regularly and adjust settings as needed',
+                'Never risk more than 2-3% of your account on a single trade': 'Never risk more than 2-3% of your account on a single trade',
+                'Diversify across multiple strategies and symbols for better risk management': 'Diversify across multiple strategies and symbols for better risk management',
+                'Keep your MetaTrader 5 platform updated to the latest version': 'Keep your MetaTrader 5 platform updated to the latest version',
+                'All rights reserved.': 'All rights reserved.',
+                'Professional trading bots for MetaTrader 5': 'Professional trading bots for MetaTrader 5'
+            },
+            ro: {
+                'Complete Setup Guide': 'Ghid Complet de Configurare',
+                'Everything you need to install, configure, and optimize your GTAlgo trading bots': 'Tot ce ai nevoie pentru a instala, configura și optimiza roboții GTAlgo',
+                'Installation': 'Instalare',
+                'Demo Setup': 'Configurare Demo',
+                'License': 'Licență',
+                'Backtesting': 'Backtesting',
+                'Settings': 'Setări',
+                'MT5 Installation & Setup': 'Instalare & Configurare MT5',
+                'Before You Start': 'Înainte să începi',
+                'Make sure you have MetaTrader 5 installed and a trading account (demo or real).': 'Asigură-te că ai MetaTrader 5 instalat și un cont de trading (demo sau real).',
+                'Step 1: Download MetaTrader 5': 'Pasul 1: Descarcă MetaTrader 5',
+                'Download MT5': 'Descarcă MT5',
+                'Visit your broker\'s website or download directly from MetaQuotes:': 'Vizitează site-ul brokerului tău sau descarcă direct de la MetaQuotes:',
+                'Copy': 'Copiază',
+                'Install and Open MT5': 'Instalează și Deschide MT5',
+                'Run the installer and follow the on-screen instructions. After installation, open MetaTrader 5.': 'Rulează programul de instalare și urmează instrucțiunile de pe ecran. După instalare, deschide MetaTrader 5.',
+                'Create/Login to Trading Account': 'Creează/Autentifică-te în Cont',
+                'Use your broker credentials to log in, or create a demo account for testing.': 'Folosește credențialele brokerului pentru autentificare sau creează un cont demo pentru testare.',
+                'Step 2: Install Your GTAlgo Bot': 'Pasul 2: Instalează Robotul GTAlgo',
+                'Download the EA File': 'Descarcă Fișierul EA',
+                'After purchase, download the .ex5 file from your Whop dashboard.': 'După achiziție, descarcă fișierul .ex5 din dashboard-ul Whop.',
+                'Open MT5 Data Folder': 'Deschide Folderul de Date MT5',
+                'In MT5, click: <strong>File → Open Data Folder</strong>': 'În MT5, click: <strong>File → Open Data Folder</strong>',
+                'This opens the MQL5 directory where all expert advisors are stored.': 'Aceasta deschide directorul MQL5 unde sunt stocați toți experții automatizați.',
+                'Copy the EA File': 'Copiază Fișierul EA',
+                'Navigate to: <code>MQL5 → Experts</code>': 'Navighează la: <code>MQL5 → Experts</code>',
+                'Paste the downloaded .ex5 file into this folder.': 'Lipește fișierul .ex5 descărcat în acest folder.',
+                'Restart MT5': 'Repornește MT5',
+                'Close and reopen MetaTrader 5 to load the new Expert Advisor.': 'Închide și redeschide MetaTrader 5 pentru a încărca noul Expert Advisor.',
+                'Verify Installation': 'Verifică Instalarea',
+                'Open the Navigator panel (Ctrl+N), expand "Expert Advisors", and confirm your bot appears in the list.': 'Deschide panoul Navigator (Ctrl+N), extinde "Expert Advisors" și confirmă că robotul apare în listă.',
+                'Installation Complete!': 'Instalare Finalizată!',
+                'Your GTAlgo bot is now installed and ready to use.': 'Robotul GTAlgo este acum instalat și gata de folosit.',
+                'Demo Bot Setup': 'Configurare Robot Demo',
+                'What is a Demo Bot?': 'Ce este un Robot Demo?',
+                'Demo bots are free, limited versions that allow you to test the strategy in backtest mode before purchasing the full version.': 'Roboții demo sunt versiuni gratuite, limitate, care îți permit să testezi strategia în modul backtest înainte de a cumpăra versiunea completă.',
+                'How to Use Demo Bots': 'Cum să Folosești Roboții Demo',
+                'Download Demo Version': 'Descarcă Versiunea Demo',
+                'Visit the GTAlgo store and download the demo version of your chosen bot.': 'Vizitează magazinul GTAlgo și descarcă versiunea demo a robotului ales.',
+                'Install in MT5': 'Instalează în MT5',
+                'Follow the same installation steps as above (File → Open Data Folder → MQL5 → Experts).': 'Urmează aceiași pași de instalare ca mai sus (File → Open Data Folder → MQL5 → Experts).',
+                'Use in Strategy Tester': 'Folosește în Strategy Tester',
+                'Demo versions can ONLY be used in the Strategy Tester (backtest mode). Press Ctrl+R to open the Strategy Tester and test the bot\'s performance on historical data.': 'Versiunile demo pot fi folosite DOAR în Strategy Tester (modul backtest). Apasă Ctrl+R pentru a deschide Strategy Tester și testa performanța robotului pe date istorice.',
+                'Demo Limitations': 'Limitări Demo',
+                'Demo versions are restricted to backtest mode only. They cannot be used for live or demo account trading. Upgrade to the full or licensed version for complete functionality.': 'Versiunile demo sunt restricționate doar la modul backtest. Nu pot fi folosite pentru tranzacționare live sau pe cont demo. Upgrade la versiunea completă sau licențiată pentru funcționalitate integrală.',
+                'License Activation (Licensed Version)': 'Activare Licență (Versiune Licențiată)',
+                'Licensed Bots Only': 'Doar Roboți cu Licență',
+                'This section applies only to licensed versions with subscription-based licensing.': 'Această secțiune se aplică doar versiunilor licențiate cu licențiere bazată pe abonament.',
+                'Step 1: Enable WebRequest in MT5': 'Pasul 1: Activează WebRequest în MT5',
+                'Open MT5 Options': 'Deschide Opțiuni MT5',
+                'Go to: <strong>Tools → Options → Expert Advisors</strong>': 'Du-te la: <strong>Tools → Options → Expert Advisors</strong>',
+                'Add License URL': 'Adaugă URL-ul Licenței',
+                'Check the box: <strong>"Allow WebRequest for listed URL"</strong>': 'Bifează: <strong>"Allow WebRequest for listed URL"</strong>',
+                'Add this URL to the list:': 'Adaugă acest URL în listă:',
+                'Save and Restart': 'Salvează și Repornește',
+                'Click OK and restart MetaTrader 5.': 'Click OK și repornește MetaTrader 5.',
+                'Step 2: Configure License in EA Settings': 'Pasul 2: Configurează Licența în Setările EA',
+                'Drag EA to Chart': 'Trage EA pe Grafic',
+                'Drag your licensed bot from Navigator to the chart.': 'Trage robotul licențiat din Navigator pe grafic.',
+                'Enter License Credentials': 'Introdu Credențialele Licenței',
+                'In the EA settings window, find the "LICENSE SETTINGS" section and enter:': 'În fereastra de setări EA, găsește secțiunea "LICENSE SETTINGS" și introdu:',
+                'The email you used when purchasing': 'Email-ul folosit la achiziție',
+                'Your unique license key (received via email)': 'Cheia unică de licență (primită pe email)',
+                'Make sure "Allow Algo Trading" is checked, then click OK.': 'Asigură-te că "Allow Algo Trading" este bifat, apoi click OK.',
+                'Verify License': 'Verifică Licența',
+                'Check the "Experts" tab in MT5. You should see a success message confirming license validation.': 'Verifică tab-ul "Experts" în MT5. Ar trebui să vezi un mesaj de succes confirmând validarea licenței.',
+                'License Active!': 'Licență Activă!',
+                'Your bot is now licensed and ready to trade. The license will be validated automatically every 30 seconds.': 'Robotul tău este acum licențiat și gata să tranzacționeze. Licența va fi validată automat la fiecare 30 de secunde.',
+                'Troubleshooting': 'Rezolvare Probleme',
+                'If you see "License validation FAILED", make sure:': 'Dacă vezi "License validation FAILED", asigură-te că:',
+                'WebRequest URL is correctly added in MT5 settings': 'URL-ul WebRequest este adăugat corect în setările MT5',
+                'Email and License Key are entered exactly as received': 'Email-ul și Cheia de Licență sunt introduse exact cum au fost primite',
+                'Your license subscription is active': 'Abonamentul licenței este activ',
+                'You have an active internet connection': 'Ai o conexiune activă la internet',
+                'Strategy Backtesting': 'Backtesting Strategie',
+                'Why Backtest?': 'De Ce Backtest?',
+                'Backtesting allows you to test the bot\'s performance on historical data before risking real money.': 'Backtesting-ul îți permite să testezi performanța robotului pe date istorice înainte de a risca bani reali.',
+                'How to Run a Backtest': 'Cum să Rulezi un Backtest',
+                'Open Strategy Tester': 'Deschide Strategy Tester',
+                'Press <strong>Ctrl+R</strong> or go to <strong>View → Strategy Tester</strong>': 'Apasă <strong>Ctrl+R</strong> sau du-te la <strong>View → Strategy Tester</strong>',
+                'Configure Test Settings': 'Configurează Setările Testului',
+                'In the Strategy Tester panel:': 'În panoul Strategy Tester:',
+                'Select your GTAlgo bot': 'Selectează robotul GTAlgo',
+                'Choose the trading symbol (see recommended settings below)': 'Alege simbolul de tranzacționare (vezi setările recomandate mai jos)',
+                'Select timeframe (M5, M15, H1, etc.)': 'Selectează timeframe-ul (M5, M15, H1, etc.)',
+                'Choose testing period (recommended: 1+ year)': 'Alege perioada de testare (recomandat: 1+ an)',
+                'Select "Every tick" for most accurate results': 'Selectează "Every tick" pentru rezultate mai precise',
+                'Adjust EA Parameters': 'Ajustează Parametrii EA',
+                'Click "Expert properties" to customize settings like lot size, risk percentage, etc. (see bot-specific settings below).': 'Click "Expert properties" pentru a personaliza setările precum lot size, procent de risc, etc. (vezi setările specifice fiecărui robot mai jos).',
+                'Start the Test': 'Pornește Testul',
+                'Click the "Start" button and wait for the backtest to complete.': 'Click pe butonul "Start" și așteaptă finalizarea backtestului.',
+                'Analyze Results': 'Analizează Rezultatele',
+                'Review the Results, Graph, and Report tabs to evaluate performance metrics like win rate, profit factor, drawdown, etc.': 'Verifică tab-urile Results, Graph și Report pentru a evalua metrici de performanță precum win rate, profit factor, drawdown, etc.',
+                'Important Notes': 'Note Importante',
+                'Always use high-quality historical data for accurate results': 'Folosește întotdeauna date istorice de calitate pentru rezultate precise',
+                'Past performance does not guarantee future results': 'Performanța trecută nu garantează rezultate viitoare',
+                'Test on multiple timeframes and symbols for validation': 'Testează pe multiple timeframe-uri și simboluri pentru validare',
+                'Use realistic spread and commission settings': 'Folosește setări realiste de spread și comisioane',
+                'Recommended Bot Settings': 'Setări Recomandate pentru Roboți',
+                'Select a bot below to view its optimized backtest settings:': 'Selectează un robot mai jos pentru a vedea setările optimizate de backtest:',
+                'Recommended Settings': 'Setări Recomandate',
+                'Strategy Type:': 'Tip Strategie:',
+                'Scalping & Mean Reversion': 'Scalping & Revenire la Medie',
+                'Best Symbols:': 'Simboluri Recomandate:',
+                'Recommended Balance:': 'Sold Recomandat:',
+                'Parameter': 'Parametru',
+                'Recommended Value': 'Valoare Recomandată',
+                'Description': 'Descriere',
+                'Risk per trade (percentage)': 'Risc per trade (procent)',
+                'Moving average calculation period': 'Perioada de calcul a mediei mobile',
+                'Entry filter threshold': 'Prag filtru de intrare',
+                'Lookback period for percentile': 'Perioadă lookback pentru percentilă',
+                'Auto-close positions at this hour': 'Închide automat pozițiile la această oră',
+                'Limit to one position per day': 'Limitează la o poziție pe zi',
+                'Maximum risk per trade': 'Risc maxim per trade',
+                'Entry filter threshold (%)': 'Prag filtru de intrare (%)',
+                'Maximum acceptable slippage (pips)': 'Slippage maxim acceptabil (pips)',
+                'Auto-close positions at 22:00': 'Închide automat pozițiile la 22:00',
+                '5-minute chart for analysis': 'Grafic de 5 minute pentru analiză',
+                'Momentum Analysis (CCI, EMA, Linear Regression)': 'Analiză Momentum (CCI, EMA, Regresia Liniară)',
+                '3-hour chart for analysis': 'Grafic de 3 ore pentru analiză',
+                'Risk percentage per trade': 'Procent risc per trade',
+                'Commodity Channel Index period': 'Perioadă Commodity Channel Index',
+                'Exponential moving average period': 'Perioadă medie mobilă exponențială',
+                'Linear Regression period': 'Perioadă Regresia Liniară',
+                'Exit long positions after X bars': 'Ieșire poziții long după X bare',
+                'Exit short positions after X bars': 'Ieșire poziții short după X bare',
+                'Vortex Indicator System': 'Sistem Indicator Vortex',
+                '1-hour chart for analysis': 'Grafic de 1 oră pentru analiză',
+                'Vortex Indicator calculation period': 'Perioadă calcul Indicator Vortex',
+                'Profit target coefficient': 'Coeficient țintă profit',
+                'Stop loss coefficient': 'Coeficient stop loss',
+                'Trailing stop coefficient': 'Coeficient trailing stop',
+                'Breakout System': 'Sistem Breakout',
+                'Volatility expansion multiplier': 'Multiplicator expansiune volatilitate',
+                'Bars to detect consolidation': 'Bare pentru detectare consolidare',
+                'Enable false signal filtering': 'Activează filtrare semnale false',
+                'Risk Disclaimer': 'Avertisment Risc',
+                'These settings are recommendations based on historical backtesting. Always adjust parameters according to your account balance and risk tolerance. Trading involves substantial risk of loss.': 'Aceste setări sunt recomandări bazate pe backtesting istoric. Ajustează întotdeauna parametrii conform soldului contului și toleranței la risc. Tranzacționarea implică risc substanțial de pierdere.',
+                'Support & Resources': 'Suport & Resurse',
+                'Need Help?': 'Ai Nevoie de Ajutor?',
+                'If you encounter any issues or have questions, reach out through:': 'Dacă întâmpini probleme sau ai întrebări, contactează-ne prin:',
+                'Access via your Whop dashboard': 'Acces prin dashboard-ul Whop',
+                'Pro Tips': 'Sfaturi Pro',
+                'Always start with a demo account to familiarize yourself with the bot': 'Începe întotdeauna cu un cont demo pentru a te familiariza cu robotul',
+                'Monitor your bot\'s performance regularly and adjust settings as needed': 'Monitorizează performanța robotului regulat și ajustează setările după necesitate',
+                'Never risk more than 2-3% of your account on a single trade': 'Nu risca niciodată mai mult de 2-3% din cont pe un singur trade',
+                'Diversify across multiple strategies and symbols for better risk management': 'Diversifică pe multiple strategii și simboluri pentru un management mai bun al riscului',
+                'Keep your MetaTrader 5 platform updated to the latest version': 'Menține platforma MetaTrader 5 actualizată la ultima versiune',
+                'All rights reserved.': 'Toate drepturile rezervate.',
+                'Professional trading bots for MetaTrader 5': 'Roboți profesionali de trading pentru MetaTrader 5'
+            }
+        };
+
+        // Language switcher
+        let currentLang = localStorage.getItem('gtalgo-lang') || 'en';
+        const originalTexts = new Map();
+
+        document.querySelectorAll('.translatable').forEach(el => {
+            originalTexts.set(el, el.innerHTML);
+        });
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('gtalgo-lang', lang);
+
+            document.querySelectorAll('.translatable').forEach(el => {
+                const originalKey = originalTexts.get(el);
+                if (originalKey && translations[lang][originalKey]) {
+                    el.innerHTML = translations[lang][originalKey];
+                }
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        setLanguage(currentLang);
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setLanguage(btn.getAttribute('data-lang'));
+            });
+        });
+
+        // Scroll to section
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Copy to clipboard
+        function copyToClipboard(text, evt) {
+            const e = evt || window.event;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = e ? e.target : null;
+                if (btn) {
+                    const originalText = btn.textContent;
+                    btn.textContent = currentLang === 'en' ? 'Copied!' : 'Copiat!';
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                    }, 2000);
+                }
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                alert('Text copied: ' + text);
+            });
+        }
+
+        // Bot selector
+        function selectBot(botId, btnElement) {
+            console.log('selectBot called:', botId, btnElement);
+            try {
+                document.querySelectorAll('.bot-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.bot-settings').forEach(settings => settings.classList.remove('active'));
+                
+                if (btnElement) {
+                    btnElement.classList.add('active');
+                }
+                const settingsEl = document.getElementById(botId + '-settings');
+                if (settingsEl) {
+                    settingsEl.classList.add('active');
+                }
+            } catch(e) {
+                console.error('Error in selectBot:', e);
+            }
+        }
+
+        // Vector symbol selector
+        function selectVectorSymbol(symbol, btnElement) {
+            // Update button states
+            const vectorBtns = document.querySelectorAll('#vector-settings .bot-selector .bot-btn');
+            vectorBtns.forEach(btn => btn.classList.remove('active'));
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+            
+            // Hide all symbol settings
+            document.querySelectorAll('.vector-symbol-settings').forEach(div => {
+                div.style.display = 'none';
+            });
+            
+            // Show selected symbol settings
+            document.getElementById('vector-' + symbol).style.display = 'block';
+        }
+
+        // Storm symbol selector
+        function selectStormSymbol(symbol, btnElement) {
+            // Update button states
+            const stormBtns = document.querySelectorAll('#storm-settings .bot-selector .bot-btn');
+            stormBtns.forEach(btn => btn.classList.remove('active'));
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+            
+            // Hide all symbol settings
+            document.querySelectorAll('.storm-symbol-settings').forEach(div => {
+                div.style.display = 'none';
+            });
+            
+            // Show selected symbol settings
+            document.getElementById('storm-' + symbol).style.display = 'block';
+        }
+
+        // Nova symbol selector
+        function selectNovaSymbol(symbol, btnElement) {
+            // Update button states
+            const novaBtns = document.querySelectorAll('#nova-settings .bot-selector .bot-btn');
+            novaBtns.forEach(btn => btn.classList.remove('active'));
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+            
+            // Hide all symbol settings
+            document.querySelectorAll('.nova-symbol-settings').forEach(div => {
+                div.style.display = 'none';
+            });
+            
+            // Show selected symbol settings
+            document.getElementById('nova-' + symbol).style.display = 'block';
+        }
+
+        // Apex symbol selector
+        function selectApexSymbol(symbol, btnElement) {
+            // Update button states
+            const apexBtns = document.querySelectorAll('#apex-settings .bot-selector .bot-btn');
+            apexBtns.forEach(btn => btn.classList.remove('active'));
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+            
+            // Hide all symbol settings
+            document.querySelectorAll('.apex-symbol-settings').forEach(div => {
+                div.style.display = 'none';
+            });
+            
+            // Show selected symbol settings
+            document.getElementById('apex-' + symbol).style.display = 'block';
+        }
+
+        // Mobile touch event handler - runs immediately
+        (function() {
+            // Wait for DOM to be ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initMobileHandlers);
+            } else {
+                initMobileHandlers();
+            }
+
+            function initMobileHandlers() {
+                console.log('Initializing mobile handlers...');
+                
+                // Add touch handlers to all buttons
+                document.querySelectorAll('button[onclick], .quick-nav-item[onclick]').forEach(function(el) {
+                    el.addEventListener('touchstart', function(e) {
+                        console.log('Touch detected on:', el);
+                        // Trigger the onclick manually
+                        if (el.onclick) {
+                            el.onclick.call(el, e);
+                        }
+                    }, { passive: false });
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
