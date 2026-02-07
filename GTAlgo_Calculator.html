@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<title>GTAlgo Portfolio Engine</title>
+<style>
+:root {
+    --bg: #000000;
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-hover: rgba(255, 255, 255, 0.08);
+    --border: rgba(255, 255, 255, 0.12);
+    --text-primary: #f5f5f7;
+    --text-secondary: #86868b;
+    --accent: #0071e3;
+    --accent-glow: rgba(0, 113, 227, 0.3);
+    --green: #10b981;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { 
+    background: var(--bg); 
+    color: var(--text-primary); 
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+.container{
+    position:relative;
+    z-index:1;
+    max-width:1200px;
+    margin:80px auto;
+    padding:40px;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.subtitle{
+    color:var(--text-secondary);
+    font-size:14px;
+}
+
+.glass{
+    background:var(--glass);
+    backdrop-filter: blur(40px);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 0 40px rgba(0,113,227,0.08);
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-bottom:25px;
+}
+
+label{
+    font-size:12px;
+    color:var(--text-secondary);
+}
+
+input,select{
+    width:100%;
+    margin-top:10px;
+    padding:14px;
+    border-radius:12px;
+    background:rgba(0,0,0,0.6);
+    border:1px solid var(--border);
+    color:var(--text-primary);
+}
+
+input:focus,select:focus{outline:none;border-color:var(--accent)}
+
+.btn{
+    width:100%;
+    padding:16px;
+    border-radius:14px;
+    border:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(0,113,227,0.25), rgba(0,113,227,0.05));
+    color:var(--text-primary);
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 0 25px var(--accent-glow);
+}
+
+.btn:hover{background:linear-gradient(180deg, rgba(0,113,227,0.35), rgba(0,113,227,0.1))}
+
+.table-wrap{
+    margin-top:30px;
+    background:var(--glass);
+    border:1px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+}
+
+th{
+    background:rgba(0,0,0,0.6);
+    color:var(--text-secondary);
+    padding:14px;
+}
+
+td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+tr:hover{background:var(--glass-hover)}
+
+.ok{color:var(--green);font-weight:600}
+.bad{color:var(--red);font-weight:600}
+
+.footer{
+    margin-top:20px;
+    text-align:center;
+    font-size:12px;
+    color:var(--text-secondary);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="logo">GTAlgo Portfolio Engine</div>
+        <div class="subtitle">Multi‑Strategy Automated Allocation System</div>
+    </div>
+
+    <div class="glass">
+        <div class="grid">
+            <div>
+                <label>Account Balance ($)</label>
+                <input type="number" id="balance" placeholder="e.g. 5000">
+            </div>
+
+            <div>
+                <label>Risk Profile</label>
+                <select id="risk">
+                    <option value="0.5">Low Risk</option>
+                    <option value="1" selected>Normal Risk</option>
+                    <option value="1.5">Aggressive</option>
+                </select>
+            </div>
+
+            <div style="display:flex;align-items:flex-end">
+                <button class="btn" onclick="calc()">Calculate Portfolio Allocation</button>
+            </div>
+        </div>
+
+        <div class="table-wrap" id="result"></div>
+    </div>
+
+    <div class="footer">
+        Backtest-based portfolio model. Historical performance does not guarantee future results. Risk is managed through diversification and capital allocation.
+    </div>
+
+</div>
+
+<script>
+const refBalance = 10000;
+
+const portfolio = [
+  {name:"NovaPro US500", lot:5, min:0.1},
+  {name:"NovaPro US30", lot:0.5, min:0.1},
+
+  {name:"Apex XAU 15m", lot:0.1, min:0.01},
+  {name:"Apex XAU 1h", lot:0.13, min:0.01},
+  {name:"Apex JPY", lot:0.7, min:0.01},
+  {name:"Apex US100", lot:1.3, min:0.1},
+
+  {name:"Storm US30", lot:0.4, min:0.1},
+  {name:"Storm GER", lot:1.3, min:0.1},
+  {name:"Storm NAS", lot:1.3, min:0.1},
+
+  {name:"TitanX US500", lot:4, min:0.1},
+
+  {name:"Vector XAU", lot:0.06, min:0.01},
+  {name:"Vector BTC", lot:0.1, min:0.01},
+  {name:"Vector NAS100", lot:1, min:0.1},
+  {name:"Vector JPY", lot:0.4, min:0.01}
+];
+
+function calc(){
+  const balance = parseFloat(document.getElementById('balance').value);
+  const risk = parseFloat(document.getElementById('risk').value);
+  if(!balance || balance<=0){alert('Enter valid balance');return;}
+
+  const scale = (balance / refBalance) * risk;
+
+  let html = `<table><tr><th>Strategy</th><th>Lot Size</th><th>Status</th></tr>`;
+  let valid = true;
+
+  portfolio.forEach(p=>{
+    let lot = p.lot * scale;
+    let status = 'OK';
+    let cls = 'ok';
+
+    if(lot < p.min){
+      status = 'MIN LOT LIMIT';
+      cls = 'bad';
+      valid = false;
+    }
+
+    html += `<tr><td>${p.name}</td><td>${lot.toFixed(2)}</td><td class="${cls}">${status}</td></tr>`;
+  });
+
+  html += '</table>';
+
+  if(!valid){
+    html += `<div class="bad" style="padding:14px;text-align:center">⚠ Account too small to run full portfolio safely.</div>`;
+  } else {
+    html += `<div class="ok" style="padding:14px;text-align:center">✔ Portfolio allocation valid</div>`;
+  }
+
+  document.getElementById('result').innerHTML = html;
+}
+</script>
+</body>
+</html>
