@@ -75,6 +75,40 @@ body::before {
     font-size:14px;
 }
 
+.lang-switcher {
+    margin-top: 20px;
+    display: flex;
+    gap: 5px;
+    background: var(--glass);
+    padding: 4px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    justify-content: center;
+}
+
+.lang-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.lang-btn:hover {
+    color: var(--text-primary);
+}
+
+.lang-btn.active {
+    background: var(--text-primary);
+    color: #000;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+}
+
 .glass{
     background:var(--glass);
     backdrop-filter: blur(40px);
@@ -297,34 +331,38 @@ tr:hover{background:var(--glass-hover)}
 
     <div class="header">
         <div class="logo">GTAlgo Portfolio Engine</div>
-        <div class="subtitle">Multi‑Strategy Automated Allocation System</div>
+        <div class="subtitle translatable">Multi‑Strategy Automated Allocation System</div>
+        <div class="lang-switcher">
+            <button class="lang-btn active" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="ro">RO</button>
+        </div>
     </div>
 
     <div class="glass">
         <!-- PROP FIRM TOGGLE -->
         <div class="prop-toggle">
             <input type="checkbox" id="propFirmMode" onchange="updateRiskProfiles()">
-            <label for="propFirmMode">🛡️ PROP FIRM MODE (5% Daily Limit Protection)</label>
-            <span class="prop-badge">RECOMMENDED</span>
+            <label for="propFirmMode" class="translatable">🛡️ PROP FIRM MODE (5% Daily Limit Protection)</label>
+            <span class="prop-badge translatable">RECOMMENDED</span>
         </div>
 
         <div class="grid">
             <div>
-                <label>Account Balance ($)</label>
+                <label class="translatable">Account Balance ($)</label>
                 <input type="number" id="balance" placeholder="e.g. 5000" value="10000">
             </div>
 
             <div>
-                <label>Risk Profile <span id="riskLabel"></span></label>
+                <label><span class="translatable">Risk Profile</span> <span id="riskLabel"></span></label>
                 <select id="risk" onchange="updateLabel()">
-                    <option value="0.5">Low Risk</option>
-                    <option value="1" selected>Normal Risk</option>
-                    <option value="1.5">Aggressive</option>
+                    <option value="0.5" class="translatable">Low Risk</option>
+                    <option value="1" selected class="translatable">Normal Risk</option>
+                    <option value="1.5" class="translatable">Aggressive</option>
                 </select>
             </div>
 
             <div style="display:flex;align-items:flex-end">
-                <button class="btn" onclick="calc()">Calculate Portfolio Allocation</button>
+                <button class="btn translatable" onclick="calc()">Calculate Portfolio Allocation</button>
             </div>
         </div>
 
@@ -333,14 +371,99 @@ tr:hover{background:var(--glass-hover)}
     </div>
 
     <div class="footer">
-        ⚠️ Prop Firm Mode reduces lot sizes by 3-5x to respect 5% daily loss limit when running multiple strategies simultaneously.<br>
-        Historical performance does not guarantee future results.
+        <span class="translatable">⚠️ Prop Firm Mode reduces lot sizes by 3-5x to respect 5% daily loss limit when running multiple strategies simultaneously.</span><br>
+        <span class="translatable">Historical performance does not guarantee future results.</span>
     </div>
 
 </div>
 
 <script>
 const refBalance = 10000;
+
+// TRANSLATION SYSTEM - MUST BE FIRST
+const translations = {
+  en: {
+    'Multi‑Strategy Automated Allocation System': 'Multi‑Strategy Automated Allocation System',
+    '🛡️ PROP FIRM MODE (5% Daily Limit Protection)': '🛡️ PROP FIRM MODE (5% Daily Limit Protection)',
+    'RECOMMENDED': 'RECOMMENDED',
+    'Account Balance ($)': 'Account Balance ($)',
+    'Risk Profile': 'Risk Profile',
+    'Low Risk': 'Low Risk',
+    'Normal Risk': 'Normal Risk',
+    'Aggressive': 'Aggressive',
+    'Calculate Portfolio Allocation': 'Calculate Portfolio Allocation',
+    'Conservative (Prop Safe)': 'Conservative (Prop Safe)',
+    'Balanced (Prop Safe)': 'Balanced (Prop Safe)',
+    'Aggressive (Prop Safe)': 'Aggressive (Prop Safe)',
+    'Strategy': 'Strategy',
+    'Original Lot': 'Original Lot',
+    'Calculated Lot': 'Calculated Lot',
+    'Prop Firm Lot': 'Prop Firm Lot',
+    'Status': 'Status',
+    'Account too small:': 'Account too small:',
+    'strategies below minimum lot size.': 'strategies below minimum lot size.',
+    'Recommended minimum for Prop Firm Mode:': 'Recommended minimum for Prop Firm Mode:',
+    'Recommended minimum:': 'Recommended minimum:',
+    'Portfolio allocation valid': 'Portfolio allocation valid',
+    'Lot sizes reduced by': 'Lot sizes reduced by',
+    'for prop firm safety. All strategies can run simultaneously without hitting 5% daily limit.': 'for prop firm safety. All strategies can run simultaneously without hitting 5% daily limit.',
+    'All strategies operational with standard risk parameters.': 'All strategies operational with standard risk parameters.',
+    'Prop Firm Warning:': 'Prop Firm Warning:',
+    'Running': 'Running',
+    'strategies on': 'strategies on',
+    'account increases risk.': 'account increases risk.',
+    'Consider: (1) Increasing account size, (2) Running fewer strategies, or (3) Using Conservative profile.': 'Consider: (1) Increasing account size, (2) Running fewer strategies, or (3) Using Conservative profile.',
+    'Active Strategies': 'Active Strategies',
+    'Avg Lot Size': 'Avg Lot Size',
+    'Risk Multiplier': 'Risk Multiplier',
+    'Lot Reduction': 'Lot Reduction',
+    'Mode': 'Mode',
+    '⚠️ Prop Firm Mode reduces lot sizes by 3-5x to respect 5% daily loss limit when running multiple strategies simultaneously.': '⚠️ Prop Firm Mode reduces lot sizes by 3-5x to respect 5% daily loss limit when running multiple strategies simultaneously.',
+    'Historical performance does not guarantee future results.': 'Historical performance does not guarantee future results.'
+  },
+  ro: {
+    'Multi‑Strategy Automated Allocation System': 'Sistem Automat de Alocare Multi-Strategie',
+    '🛡️ PROP FIRM MODE (5% Daily Limit Protection)': '🛡️ MOD PROP FIRM (Protecție Limită 5% Zilnic)',
+    'RECOMMENDED': 'RECOMANDAT',
+    'Account Balance ($)': 'Balanță Cont ($)',
+    'Risk Profile': 'Profil Risc',
+    'Low Risk': 'Risc Mic',
+    'Normal Risk': 'Risc Normal',
+    'Aggressive': 'Agresiv',
+    'Calculate Portfolio Allocation': 'Calculează Alocarea Portofoliului',
+    'Conservative (Prop Safe)': 'Conservator (Sigur Prop)',
+    'Balanced (Prop Safe)': 'Echilibrat (Sigur Prop)',
+    'Aggressive (Prop Safe)': 'Agresiv (Sigur Prop)',
+    'Strategy': 'Strategie',
+    'Original Lot': 'Lot Original',
+    'Calculated Lot': 'Lot Calculat',
+    'Prop Firm Lot': 'Lot Prop Firm',
+    'Status': 'Status',
+    'Account too small:': 'Cont prea mic:',
+    'strategies below minimum lot size.': 'strategii sub lot-ul minim.',
+    'Recommended minimum for Prop Firm Mode:': 'Minim recomandat pentru Modul Prop Firm:',
+    'Recommended minimum:': 'Minim recomandat:',
+    'Portfolio allocation valid': 'Alocare portofoliu validă',
+    'Lot sizes reduced by': 'Lot-uri reduse cu',
+    'for prop firm safety. All strategies can run simultaneously without hitting 5% daily limit.': 'pentru siguranța prop firm. Toate strategiile pot rula simultan fără a atinge limita zilnică de 5%.',
+    'All strategies operational with standard risk parameters.': 'Toate strategiile operaționale cu parametri standard de risc.',
+    'Prop Firm Warning:': 'Avertisment Prop Firm:',
+    'Running': 'Rulare',
+    'strategies on': 'strategii pe cont de',
+    'account increases risk.': 'crește riscul.',
+    'Consider: (1) Increasing account size, (2) Running fewer strategies, or (3) Using Conservative profile.': 'Consideră: (1) Mărirea contului, (2) Rularea mai puține strategii, sau (3) Folosirea profilului Conservator.',
+    'Active Strategies': 'Strategii Active',
+    'Avg Lot Size': 'Lot Mediu',
+    'Risk Multiplier': 'Multiplicator Risc',
+    'Lot Reduction': 'Reducere Lot',
+    'Mode': 'Mod',
+    '⚠️ Prop Firm Mode reduces lot sizes by 3-5x to respect 5% daily loss limit when running multiple strategies simultaneously.': '⚠️ Modul Prop Firm reduce lot-urile cu 3-5x pentru a respecta limita zilnică de 5% când rulezi multiple strategii simultan.',
+    'Historical performance does not guarantee future results.': 'Performanța istorică nu garantează rezultate viitoare.'
+  }
+};
+
+let currentLang = localStorage.getItem('gtalgo-calc-lang') || 'en';
+const originalTexts = new Map();
 
 const portfolio = [
   {name:"GT-NovaPro US500", lot:5, min:0.1, group:"NovaPro"},
@@ -366,18 +489,19 @@ const portfolio = [
 function updateRiskProfiles(){
   const propMode = document.getElementById('propFirmMode').checked;
   const riskSelect = document.getElementById('risk');
+  const lang = currentLang || 'en';
   
   if(propMode){
     riskSelect.innerHTML = `
-      <option value="0.25">Conservative (Prop Safe)</option>
-      <option value="0.33" selected>Balanced (Prop Safe)</option>
-      <option value="0.4">Aggressive (Prop Safe)</option>
+      <option value="0.25" class="translatable">${translations[lang]['Conservative (Prop Safe)']}</option>
+      <option value="0.33" selected class="translatable">${translations[lang]['Balanced (Prop Safe)']}</option>
+      <option value="0.4" class="translatable">${translations[lang]['Aggressive (Prop Safe)']}</option>
     `;
   } else {
     riskSelect.innerHTML = `
-      <option value="0.5">Low Risk</option>
-      <option value="1" selected>Normal Risk</option>
-      <option value="1.5">Aggressive</option>
+      <option value="0.5" class="translatable">${translations[lang]['Low Risk']}</option>
+      <option value="1" selected class="translatable">${translations[lang]['Normal Risk']}</option>
+      <option value="1.5" class="translatable">${translations[lang]['Aggressive']}</option>
     `;
   }
   updateLabel();
@@ -401,6 +525,7 @@ function calc(){
   const balance = parseFloat(document.getElementById('balance').value);
   const risk = parseFloat(document.getElementById('risk').value);
   const propMode = document.getElementById('propFirmMode').checked;
+  const lang = currentLang || 'en';
   
   if(!balance || balance<=0){
     alert('Enter valid balance');
@@ -413,10 +538,10 @@ function calc(){
 
   let html = `<table>
     <tr>
-      <th>Strategy</th>
-      <th>Original Lot</th>
-      <th>${propMode ? 'Prop Firm Lot' : 'Calculated Lot'}</th>
-      <th>Status</th>
+      <th>${translations[lang]['Strategy']}</th>
+      <th>${translations[lang]['Original Lot']}</th>
+      <th>${propMode ? translations[lang]['Prop Firm Lot'] : translations[lang]['Calculated Lot']}</th>
+      <th>${translations[lang]['Status']}</th>
     </tr>`;
   
   let valid = true;
@@ -455,21 +580,21 @@ function calc(){
   
   if(!valid){
     infoHtml += `<div class="info-box red">
-      ⚠️ <strong>Account too small:</strong> ${belowMin} strategies below minimum lot size.<br>
-      ${propMode ? 'Recommended minimum for Prop Firm Mode: <strong>$15,000</strong>' : 'Recommended minimum: <strong>$5,000</strong>'}
+      ⚠️ <strong>${translations[lang]['Account too small:']}</strong> ${belowMin} ${translations[lang]['strategies below minimum lot size.']}<br>
+      ${propMode ? translations[lang]['Recommended minimum for Prop Firm Mode:'] + ' <strong>$15,000</strong>' : translations[lang]['Recommended minimum:'] + ' <strong>$5,000</strong>'}
     </div>`;
   } else {
     const reduction = ((1 - (scale / (balance / refBalance * risk))) * 100).toFixed(0);
     infoHtml += `<div class="info-box green">
-      ✅ <strong>Portfolio allocation valid</strong><br>
-      ${propMode ? `Lot sizes reduced by ${reduction}% for prop firm safety. All strategies can run simultaneously without hitting 5% daily limit.` : 'All strategies operational with standard risk parameters.'}
+      ✅ <strong>${translations[lang]['Portfolio allocation valid']}</strong><br>
+      ${propMode ? `${translations[lang]['Lot sizes reduced by']} ${reduction}% ${translations[lang]['for prop firm safety. All strategies can run simultaneously without hitting 5% daily limit.']}` : translations[lang]['All strategies operational with standard risk parameters.']}
     </div>`;
   }
 
   if(propMode && balance < 15000){
     infoHtml += `<div class="info-box orange">
-      ⚡ <strong>Prop Firm Warning:</strong> Running ${portfolio.length} strategies on $${balance.toLocaleString()} account increases risk.<br>
-      Consider: (1) Increasing account size, (2) Running fewer strategies, or (3) Using Conservative profile.
+      ⚡ <strong>${translations[lang]['Prop Firm Warning:']}</strong> ${translations[lang]['Running']} ${portfolio.length} ${translations[lang]['strategies on']} $${balance.toLocaleString()} ${translations[lang]['account increases risk.']}<br>
+      ${translations[lang]['Consider: (1) Increasing account size, (2) Running fewer strategies, or (3) Using Conservative profile.']}
     </div>`;
   }
 
@@ -479,19 +604,19 @@ function calc(){
   
   infoHtml += `<div class="stats-grid">
     <div class="stat-card">
-      <div class="stat-label">Active Strategies</div>
+      <div class="stat-label">${translations[lang]['Active Strategies']}</div>
       <div class="stat-value">${portfolio.length}</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">Avg Lot Size</div>
+      <div class="stat-label">${translations[lang]['Avg Lot Size']}</div>
       <div class="stat-value">${avgLot}</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">Risk Multiplier</div>
+      <div class="stat-label">${translations[lang]['Risk Multiplier']}</div>
       <div class="stat-value">${risk}x</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">${propMode ? 'Lot Reduction' : 'Mode'}</div>
+      <div class="stat-label">${propMode ? translations[lang]['Lot Reduction'] : translations[lang]['Mode']}</div>
       <div class="stat-value">${propMode ? totalReduction + '%' : 'Standard'}</div>
     </div>
   </div>`;
@@ -500,9 +625,51 @@ function calc(){
   document.getElementById('statsBox').innerHTML = infoHtml;
 }
 
-// Initialize
-updateRiskProfiles();
-updateLabel();
+// Store original texts on page load
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.translatable').forEach(function(el) {
+    originalTexts.set(el, el.textContent.trim());
+  });
+  
+  // Initialize language
+  setLanguage(currentLang);
+  
+  // Initialize risk profiles
+  updateRiskProfiles();
+  updateLabel();
+});
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('gtalgo-calc-lang', lang);
+
+  // Translate all elements
+  document.querySelectorAll('.translatable').forEach(function(el) {
+    const originalKey = originalTexts.get(el);
+    if (originalKey && translations[lang][originalKey]) {
+      el.textContent = translations[lang][originalKey];
+    }
+  });
+
+  // Update button states
+  document.querySelectorAll('.lang-btn').forEach(function(btn) {
+    btn.classList.remove('active');
+    if (btn.getAttribute('data-lang') === lang) {
+      btn.classList.add('active');
+    }
+  });
+
+  // Re-run updateRiskProfiles to translate dropdown
+  updateRiskProfiles();
+}
+
+// Add event listeners to language buttons
+document.querySelectorAll('.lang-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const lang = btn.getAttribute('data-lang');
+    setLanguage(lang);
+  });
+});
 </script>
 </body>
 </html>
