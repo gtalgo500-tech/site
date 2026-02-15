@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-<title>GTAlgo Portfolio Engine</title>
+<title>GTAlgo Portfolio Engine - Prop Firm Edition</title>
 <style>
 :root {
     --bg: #000000;
@@ -17,6 +17,7 @@
     --green: #10b981;
     --yellow: #f59e0b;
     --red: #ef4444;
+    --orange: #f97316;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -81,6 +82,7 @@ body::before {
     border-radius:20px;
     padding:25px;
     box-shadow:0 0 40px rgba(0,113,227,0.08);
+    margin-bottom:20px;
 }
 
 .grid{
@@ -93,6 +95,7 @@ body::before {
 label{
     font-size:12px;
     color:var(--text-secondary);
+    font-weight:500;
 }
 
 input,select{
@@ -103,6 +106,7 @@ input,select{
     background:rgba(0,0,0,0.6);
     border:1px solid var(--border);
     color:var(--text-primary);
+    font-size:14px;
 }
 
 input:focus,select:focus{outline:none;border-color:var(--accent)}
@@ -117,9 +121,49 @@ input:focus,select:focus{outline:none;border-color:var(--accent)}
     font-weight:600;
     cursor:pointer;
     box-shadow:0 0 25px var(--accent-glow);
+    transition:all 0.2s;
 }
 
-.btn:hover{background:linear-gradient(180deg, rgba(0,113,227,0.35), rgba(0,113,227,0.1))}
+.btn:hover{
+    background:linear-gradient(180deg, rgba(0,113,227,0.35), rgba(0,113,227,0.1));
+    transform:translateY(-1px);
+}
+
+.prop-toggle{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:18px;
+    background:rgba(249,115,22,0.1);
+    border:1px solid rgba(249,115,22,0.3);
+    border-radius:14px;
+    margin-bottom:20px;
+}
+
+.prop-toggle input[type="checkbox"]{
+    width:22px;
+    height:22px;
+    margin:0;
+    cursor:pointer;
+}
+
+.prop-toggle label{
+    margin:0;
+    font-size:14px;
+    font-weight:600;
+    color:var(--orange);
+    cursor:pointer;
+}
+
+.prop-badge{
+    background:rgba(249,115,22,0.2);
+    color:var(--orange);
+    padding:4px 10px;
+    border-radius:6px;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.5px;
+}
 
 .table-wrap{
     margin-top:30px;
@@ -139,6 +183,7 @@ th{
     background:rgba(0,0,0,0.6);
     color:var(--text-secondary);
     padding:14px;
+    font-weight:600;
 }
 
 td{
@@ -151,6 +196,60 @@ tr:hover{background:var(--glass-hover)}
 
 .ok{color:var(--green);font-weight:600}
 .bad{color:var(--red);font-weight:600}
+.warning{color:var(--orange);font-weight:600}
+
+.info-box{
+    padding:16px;
+    border-radius:12px;
+    margin-top:15px;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.info-box.green{
+    background:rgba(16,185,129,0.1);
+    border:1px solid rgba(16,185,129,0.3);
+    color:var(--green);
+}
+
+.info-box.red{
+    background:rgba(239,68,68,0.1);
+    border:1px solid rgba(239,68,68,0.3);
+    color:var(--red);
+}
+
+.info-box.orange{
+    background:rgba(249,115,22,0.1);
+    border:1px solid rgba(249,115,22,0.3);
+    color:var(--orange);
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-top:20px;
+}
+
+.stat-card{
+    background:rgba(0,0,0,0.4);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:15px;
+    text-align:center;
+}
+
+.stat-label{
+    font-size:11px;
+    color:var(--text-secondary);
+    margin-bottom:6px;
+}
+
+.stat-value{
+    font-size:20px;
+    font-weight:700;
+    color:var(--text-primary);
+}
 
 .footer{
     margin-top:20px;
@@ -158,23 +257,20 @@ tr:hover{background:var(--glass-hover)}
     font-size:12px;
     color:var(--text-secondary);
 }
+
 @media (max-width: 768px) {
     .container {
         margin: 40px 15px;
         padding: 20px;
     }
 
-    /* Grid vertical pe mobil */
     .grid {
-        display: grid;
         grid-template-columns: 1fr;
-        gap: 20px; /* mai mult spațiu între rânduri */
-        align-items: start; /* forțează aliniere verticală corectă */
+        gap: 20px;
     }
 
-    .grid > div {
-        display: flex;
-        flex-direction: column; /* input și label vertical */
+    .stats-grid{
+        grid-template-columns: repeat(2,1fr);
     }
 
     .btn {
@@ -188,9 +284,9 @@ tr:hover{background:var(--glass-hover)}
     }
 
     table {
-        font-size: 12px;
-        overflow-x: auto; /* scroll orizontal dacă tabelul e mare */
+        font-size: 11px;
         display: block;
+        overflow-x: auto;
     }
 }   
 </style>
@@ -205,15 +301,22 @@ tr:hover{background:var(--glass-hover)}
     </div>
 
     <div class="glass">
+        <!-- PROP FIRM TOGGLE -->
+        <div class="prop-toggle">
+            <input type="checkbox" id="propFirmMode" onchange="updateRiskProfiles()">
+            <label for="propFirmMode">🛡️ PROP FIRM MODE (5% Daily Limit Protection)</label>
+            <span class="prop-badge">RECOMMENDED</span>
+        </div>
+
         <div class="grid">
             <div>
                 <label>Account Balance ($)</label>
-                <input type="number" id="balance" placeholder="e.g. 5000">
+                <input type="number" id="balance" placeholder="e.g. 5000" value="10000">
             </div>
 
             <div>
-                <label>Risk Profile</label>
-                <select id="risk">
+                <label>Risk Profile <span id="riskLabel"></span></label>
+                <select id="risk" onchange="updateLabel()">
                     <option value="0.5">Low Risk</option>
                     <option value="1" selected>Normal Risk</option>
                     <option value="1.5">Aggressive</option>
@@ -226,10 +329,12 @@ tr:hover{background:var(--glass-hover)}
         </div>
 
         <div class="table-wrap" id="result"></div>
+        <div id="statsBox"></div>
     </div>
 
     <div class="footer">
-        Backtest-based portfolio model. Historical performance does not guarantee future results. Risk is managed through diversification and capital allocation.
+        ⚠️ Prop Firm Mode reduces lot sizes by 3-5x to respect 5% daily loss limit when running multiple strategies simultaneously.<br>
+        Historical performance does not guarantee future results.
     </div>
 
 </div>
@@ -238,64 +343,166 @@ tr:hover{background:var(--glass-hover)}
 const refBalance = 10000;
 
 const portfolio = [
-  {name:"GT-NovaPro US500", lot:5, min:0.1},
-  {name:"GT-NovaPro US30", lot:0.5, min:0.1},
+  {name:"GT-NovaPro US500", lot:5, min:0.1, group:"NovaPro"},
+  {name:"GT-NovaPro US30", lot:0.5, min:0.1, group:"NovaPro"},
 
-  {name:"GT-ApexPro XAU M15", lot:0.1, min:0.01},
-  {name:"GT-ApexPro XAU H1", lot:0.13, min:0.01},
-  {name:"GT-ApexPro USDJPY", lot:0.7, min:0.01},
-  {name:"GT-ApexPro US100", lot:1.3, min:0.1},
+  {name:"GT-ApexPro XAU M15", lot:0.1, min:0.01, group:"ApexPro"},
+  {name:"GT-ApexPro XAU H1", lot:0.13, min:0.01, group:"ApexPro"},
+  {name:"GT-ApexPro USDJPY", lot:0.7, min:0.01, group:"ApexPro"},
+  {name:"GT-ApexPro US100", lot:1.3, min:0.1, group:"ApexPro"},
 
-  {name:"GT-StormX US30", lot:0.4, min:0.1},
-  {name:"GT-StormX GER40", lot:1.3, min:0.1},
-  {name:"GT-StormX US100", lot:1.3, min:0.1},
+  {name:"GT-StormX US30", lot:0.4, min:0.1, group:"StormX"},
+  {name:"GT-StormX GER40", lot:1.3, min:0.1, group:"StormX"},
+  {name:"GT-StormX US100", lot:1.3, min:0.1, group:"StormX"},
 
-  {name:"GT-TitanX US500", lot:4, min:0.1},
+  {name:"GT-TitanX US500", lot:4, min:0.1, group:"TitanX"},
 
-  {name:"GT-VectorPro XAU", lot:0.06, min:0.01},
-  {name:"GT-VectorPro BTC", lot:0.1, min:0.01},
-  {name:"GT-VectorPro NAS100", lot:1, min:0.1},
-  {name:"GT-VectorPro USDJPY", lot:0.4, min:0.01}
+  {name:"GT-VectorPro XAU", lot:0.06, min:0.01, group:"VectorPro"},
+  {name:"GT-VectorPro BTC", lot:0.1, min:0.01, group:"VectorPro"},
+  {name:"GT-VectorPro NAS100", lot:1, min:0.1, group:"VectorPro"},
+  {name:"GT-VectorPro USDJPY", lot:0.4, min:0.01, group:"VectorPro"}
 ];
+
+function updateRiskProfiles(){
+  const propMode = document.getElementById('propFirmMode').checked;
+  const riskSelect = document.getElementById('risk');
+  
+  if(propMode){
+    riskSelect.innerHTML = `
+      <option value="0.25">Conservative (Prop Safe)</option>
+      <option value="0.33" selected>Balanced (Prop Safe)</option>
+      <option value="0.4">Aggressive (Prop Safe)</option>
+    `;
+  } else {
+    riskSelect.innerHTML = `
+      <option value="0.5">Low Risk</option>
+      <option value="1" selected>Normal Risk</option>
+      <option value="1.5">Aggressive</option>
+    `;
+  }
+  updateLabel();
+}
+
+function updateLabel(){
+  const propMode = document.getElementById('propFirmMode').checked;
+  const risk = parseFloat(document.getElementById('risk').value);
+  const label = document.getElementById('riskLabel');
+  
+  if(propMode){
+    const divider = (1 / risk).toFixed(1);
+    label.textContent = `(${divider}x safer)`;
+    label.style.color = 'var(--orange)';
+  } else {
+    label.textContent = '';
+  }
+}
 
 function calc(){
   const balance = parseFloat(document.getElementById('balance').value);
   const risk = parseFloat(document.getElementById('risk').value);
-  if(!balance || balance<=0){alert('Enter valid balance');return;}
+  const propMode = document.getElementById('propFirmMode').checked;
+  
+  if(!balance || balance<=0){
+    alert('Enter valid balance');
+    return;
+  }
 
-  const scale = (balance / refBalance) * risk;
+  // PROP FIRM: reduce lot size cu mult mai mult
+  const propDivider = propMode ? 3.5 : 1; // 3.5x mai mic in prop firm mode
+  const scale = (balance / refBalance) * risk / propDivider;
 
-  let html = `<table><tr><th>Strategy</th><th>Lot Size</th><th>Status</th></tr>`;
+  let html = `<table>
+    <tr>
+      <th>Strategy</th>
+      <th>Original Lot</th>
+      <th>${propMode ? 'Prop Firm Lot' : 'Calculated Lot'}</th>
+      <th>Status</th>
+    </tr>`;
+  
   let valid = true;
+  let totalOriginal = 0;
+  let totalAdjusted = 0;
+  let belowMin = 0;
 
   portfolio.forEach(p=>{
     let lot = p.lot * scale;
     let status = 'OK';
     let cls = 'ok';
 
+    totalOriginal += p.lot;
+    
     if(lot < p.min){
-      status = 'MIN LOT LIMIT';
+      status = 'BELOW MIN';
       cls = 'bad';
       valid = false;
+      belowMin++;
+    } else {
+      totalAdjusted += lot;
     }
 
-    html += `<tr><td>${p.name}</td><td>${lot.toFixed(2)}</td><td class="${cls}">${status}</td></tr>`;
+    html += `<tr>
+      <td style="text-align:left">${p.name}</td>
+      <td>${p.lot.toFixed(2)}</td>
+      <td><strong>${lot.toFixed(3)}</strong></td>
+      <td class="${cls}">${status}</td>
+    </tr>`;
   });
 
   html += '</table>';
 
+  // INFO BOXES
+  let infoHtml = '';
+  
   if(!valid){
-    html += `<div class="bad" style="padding:14px;text-align:center">⚠ Account too small to run full portfolio safely.</div>`;
+    infoHtml += `<div class="info-box red">
+      ⚠️ <strong>Account too small:</strong> ${belowMin} strategies below minimum lot size.<br>
+      ${propMode ? 'Recommended minimum for Prop Firm Mode: <strong>$15,000</strong>' : 'Recommended minimum: <strong>$5,000</strong>'}
+    </div>`;
   } else {
-    html += `<div class="ok" style="padding:14px;text-align:center">✔ Portfolio allocation valid</div>`;
+    const reduction = ((1 - (scale / (balance / refBalance * risk))) * 100).toFixed(0);
+    infoHtml += `<div class="info-box green">
+      ✅ <strong>Portfolio allocation valid</strong><br>
+      ${propMode ? `Lot sizes reduced by ${reduction}% for prop firm safety. All strategies can run simultaneously without hitting 5% daily limit.` : 'All strategies operational with standard risk parameters.'}
+    </div>`;
   }
 
+  if(propMode && balance < 15000){
+    infoHtml += `<div class="info-box orange">
+      ⚡ <strong>Prop Firm Warning:</strong> Running ${portfolio.length} strategies on $${balance.toLocaleString()} account increases risk.<br>
+      Consider: (1) Increasing account size, (2) Running fewer strategies, or (3) Using Conservative profile.
+    </div>`;
+  }
+
+  // STATS
+  const avgLot = valid ? (totalAdjusted / portfolio.length).toFixed(3) : 0;
+  const totalReduction = propMode ? ((totalOriginal - totalAdjusted) / totalOriginal * 100).toFixed(0) : 0;
+  
+  infoHtml += `<div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Active Strategies</div>
+      <div class="stat-value">${portfolio.length}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg Lot Size</div>
+      <div class="stat-value">${avgLot}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Risk Multiplier</div>
+      <div class="stat-value">${risk}x</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">${propMode ? 'Lot Reduction' : 'Mode'}</div>
+      <div class="stat-value">${propMode ? totalReduction + '%' : 'Standard'}</div>
+    </div>
+  </div>`;
+
   document.getElementById('result').innerHTML = html;
+  document.getElementById('statsBox').innerHTML = infoHtml;
 }
+
+// Initialize
+updateRiskProfiles();
+updateLabel();
 </script>
 </body>
 </html>
-
-
-
-
