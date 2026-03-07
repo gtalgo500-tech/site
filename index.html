@@ -31,7 +31,6 @@
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -42,7 +41,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ── BACKGROUND ── */
 body::before {
   content: '';
   position: fixed;
@@ -52,7 +50,6 @@ body::before {
   z-index: 0;
 }
 
-/* animated grid */
 body::after {
   content: '';
   position: fixed;
@@ -80,9 +77,7 @@ body::after {
 }
 
 /* ── HEADER ── */
-.header {
-  margin-bottom: 48px;
-}
+.header { margin-bottom: 48px; }
 
 .header-top {
   display: flex;
@@ -93,11 +88,7 @@ body::after {
   margin-bottom: 18px;
 }
 
-.brand {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+.brand { display: flex; flex-direction: column; gap: 4px; }
 
 .brand-logo {
   font-family: var(--mono);
@@ -127,27 +118,10 @@ body::after {
   50% { opacity: 0.5; transform: scale(0.8); }
 }
 
-.brand-title {
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -1px;
-  color: var(--text);
-  line-height: 1;
-}
+.brand-title { font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--text); line-height: 1; }
+.brand-sub { font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0.3px; }
 
-.brand-sub {
-  font-size: 13px;
-  color: var(--muted);
-  font-weight: 400;
-  letter-spacing: 0.3px;
-}
-
-.header-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-}
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
 
 .lang-switcher {
   display: flex;
@@ -173,24 +147,40 @@ body::after {
 }
 
 .lang-btn:hover { color: var(--text); }
+.lang-btn.active { background: var(--accent); color: #000; }
 
-.lang-btn.active {
-  background: var(--accent);
-  color: #000;
-}
+.version-tag { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; }
 
-.version-tag {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 1px;
-}
-
-/* ── DIVIDER ── */
 .header-divider {
   height: 1px;
   background: linear-gradient(90deg, var(--accent), rgba(88,166,255,0.1), transparent);
   margin-top: 10px;
+}
+
+/* ── NOTICE BANNER ── */
+.update-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  background: rgba(63,185,80,0.07);
+  border: 1px solid rgba(63,185,80,0.2);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: var(--green);
+  font-family: var(--mono);
+  letter-spacing: 0.5px;
+}
+
+.update-banner-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--green);
+  flex-shrink: 0;
+  animation: pulse 2s ease-in-out infinite;
 }
 
 /* ── CARD ── */
@@ -217,12 +207,7 @@ body::after {
   gap: 8px;
 }
 
-.card-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
+.card-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
 /* ── PROP TOGGLE ── */
 .prop-toggle {
@@ -238,24 +223,10 @@ body::after {
   margin-bottom: 20px;
 }
 
-.prop-toggle:hover {
-  background: rgba(210,153,34,0.12);
-  border-color: rgba(210,153,34,0.4);
-}
+.prop-toggle:hover { background: rgba(210,153,34,0.12); border-color: rgba(210,153,34,0.4); }
 
-.toggle-switch {
-  position: relative;
-  width: 40px;
-  height: 22px;
-  flex-shrink: 0;
-}
-
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  position: absolute;
-}
+.toggle-switch { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
 
 .toggle-track {
   position: absolute;
@@ -279,32 +250,12 @@ body::after {
   transition: all 0.3s;
 }
 
-.toggle-switch input:checked + .toggle-track {
-  background: rgba(210,153,34,0.25);
-  border-color: var(--orange);
-}
+.toggle-switch input:checked + .toggle-track { background: rgba(210,153,34,0.25); border-color: var(--orange); }
+.toggle-switch input:checked + .toggle-track::after { transform: translateX(18px); background: var(--orange); box-shadow: 0 0 8px rgba(210,153,34,0.5); }
 
-.toggle-switch input:checked + .toggle-track::after {
-  transform: translateX(18px);
-  background: var(--orange);
-  box-shadow: 0 0 8px rgba(210,153,34,0.5);
-}
-
-.toggle-info {
-  flex: 1;
-}
-
-.toggle-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--orange);
-  margin-bottom: 2px;
-}
-
-.toggle-desc {
-  font-size: 11px;
-  color: var(--muted);
-}
+.toggle-info { flex: 1; }
+.toggle-title { font-size: 13px; font-weight: 600; color: var(--orange); margin-bottom: 2px; }
+.toggle-desc { font-size: 11px; color: var(--muted); }
 
 .prop-badge {
   background: rgba(210,153,34,0.15);
@@ -320,12 +271,7 @@ body::after {
 }
 
 /* ── CONTROLS ── */
-.controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 16px;
-  align-items: end;
-}
+.controls { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; align-items: end; }
 
 .field label {
   display: block;
@@ -353,11 +299,7 @@ body::after {
 }
 
 .field input:focus,
-.field select:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-dim);
-}
+.field select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
 
 .field select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237d8590' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
@@ -385,32 +327,13 @@ body::after {
   overflow: hidden;
 }
 
-.calc-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(88,166,255,0.15), transparent);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.calc-btn:hover {
-  border-color: var(--accent);
-  box-shadow: 0 0 20px var(--accent-glow);
-  transform: translateY(-1px);
-}
-
+.calc-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(88,166,255,0.15), transparent); opacity: 0; transition: opacity 0.2s; }
+.calc-btn:hover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); transform: translateY(-1px); }
 .calc-btn:hover::before { opacity: 1; }
-
 .calc-btn:active { transform: translateY(0); }
 
 /* ── STATS ROW ── */
-.stats-row {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-  margin-bottom: 16px;
-}
+.stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
 
 .stat {
   background: var(--surface2);
@@ -421,35 +344,12 @@ body::after {
   transition: all 0.2s;
 }
 
-.stat:hover {
-  border-color: var(--border-bright);
-  transform: translateY(-1px);
-}
-
-.stat-num {
-  font-family: var(--mono);
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.stat-lbl {
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
+.stat:hover { border-color: var(--border-bright); transform: translateY(-1px); }
+.stat-num { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 4px; }
+.stat-lbl { font-size: 10px; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; }
 
 /* ── TABLE ── */
-.table-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 16px;
-}
+.table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
 
 .table-header {
   padding: 16px 20px;
@@ -460,25 +360,10 @@ body::after {
   justify-content: space-between;
 }
 
-.table-title {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--muted);
-  text-transform: uppercase;
-}
+.table-title { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+.table-meta { font-family: var(--mono); font-size: 10px; color: var(--muted); }
 
-.table-meta {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
 
 th {
   background: rgba(0,0,0,0.3);
@@ -502,7 +387,6 @@ td {
 }
 
 td:first-child { text-align: left; }
-
 tr:last-child td { border-bottom: none; }
 tr:hover td { background: rgba(255,255,255,0.02); }
 
@@ -528,25 +412,9 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   gap: 8px;
 }
 
-.group-dot {
-  width: 5px;
-  height: 5px;
-  background: var(--accent);
-  border-radius: 50%;
-  box-shadow: 0 0 6px var(--accent);
-}
-
-.strategy-name {
-  font-weight: 500;
-  color: var(--text);
-  padding-left: 8px;
-}
-
-.lot-value {
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: 14px;
-}
+.group-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 6px var(--accent); }
+.strategy-name { font-weight: 500; color: var(--text); padding-left: 8px; }
+.lot-value { font-family: var(--mono); font-weight: 700; font-size: 14px; }
 
 .tag {
   display: inline-flex;
@@ -560,23 +428,9 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   letter-spacing: 0.5px;
 }
 
-.tag-ok {
-  background: var(--green-dim);
-  border: 1px solid rgba(63,185,80,0.25);
-  color: var(--green);
-}
-
-.tag-bad {
-  background: var(--red-dim);
-  border: 1px solid rgba(248,81,73,0.25);
-  color: var(--red);
-}
-
-.tag-warn {
-  background: var(--orange-dim);
-  border: 1px solid rgba(210,153,34,0.25);
-  color: var(--orange);
-}
+.tag-ok { background: var(--green-dim); border: 1px solid rgba(63,185,80,0.25); color: var(--green); }
+.tag-bad { background: var(--red-dim); border: 1px solid rgba(248,81,73,0.25); color: var(--red); }
+.tag-warn { background: var(--orange-dim); border: 1px solid rgba(210,153,34,0.25); color: var(--orange); }
 
 /* ── INFO BOXES ── */
 .infobox {
@@ -590,51 +444,16 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   align-items: flex-start;
 }
 
-.infobox-icon {
-  font-size: 16px;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.infobox.green {
-  background: var(--green-dim);
-  border: 1px solid rgba(63,185,80,0.25);
-  color: var(--green);
-}
-
-.infobox.red {
-  background: var(--red-dim);
-  border: 1px solid rgba(248,81,73,0.25);
-  color: var(--red);
-}
-
-.infobox.orange {
-  background: var(--orange-dim);
-  border: 1px solid rgba(210,153,34,0.25);
-  color: var(--orange);
-}
-
-.infobox.purple {
-  background: var(--purple-dim);
-  border: 1px solid rgba(188,140,255,0.2);
-  color: var(--purple);
-}
-
+.infobox-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.infobox.green { background: var(--green-dim); border: 1px solid rgba(63,185,80,0.25); color: var(--green); }
+.infobox.red { background: var(--red-dim); border: 1px solid rgba(248,81,73,0.25); color: var(--red); }
+.infobox.orange { background: var(--orange-dim); border: 1px solid rgba(210,153,34,0.25); color: var(--orange); }
+.infobox.purple { background: var(--purple-dim); border: 1px solid rgba(188,140,255,0.2); color: var(--purple); }
 .infobox strong { font-weight: 700; }
 
 /* ── FOOTER ── */
-.footer {
-  margin-top: 32px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
-  text-align: center;
-}
-
-.footer p {
-  font-size: 11px;
-  color: var(--muted);
-  line-height: 1.8;
-}
+.footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; }
+.footer p { font-size: 11px; color: var(--muted); line-height: 1.8; }
 
 /* ── ANIMATIONS ── */
 @keyframes fadeIn {
@@ -642,32 +461,8 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-in {
-  animation: fadeIn 0.35s ease forwards;
-}
-
-.animate-in-delay {
-  opacity: 0;
-  animation: fadeIn 0.35s ease 0.1s forwards;
-}
-
-/* ── EMPTY STATE ── */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--muted);
-}
-
-.empty-state-icon {
-  font-size: 40px;
-  margin-bottom: 16px;
-  opacity: 0.4;
-}
-
-.empty-state-text {
-  font-size: 13px;
-  letter-spacing: 0.5px;
-}
+.animate-in { animation: fadeIn 0.35s ease forwards; }
+.animate-in-delay { opacity: 0; animation: fadeIn 0.35s ease 0.1s forwards; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
@@ -676,8 +471,6 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   .header-right { align-items: flex-start; }
   .controls { grid-template-columns: 1fr; }
   .stats-row { grid-template-columns: repeat(3, 1fr); }
-  .stats-row .stat:nth-child(4),
-  .stats-row .stat:nth-child(5) { grid-column: span 1; }
   table { font-size: 11px; }
   th, td { padding: 9px 10px; }
   .brand-title { font-size: 24px; }
@@ -706,10 +499,16 @@ tr:hover td { background: rgba(255,255,255,0.02); }
           <button class="lang-btn active" data-lang="en">EN</button>
           <button class="lang-btn" data-lang="ro">RO</button>
         </div>
-        <div class="version-tag">v3.0 · MC CALIBRATED</div>
+        <div class="version-tag">v3.1 · EA v1.15 · 13 STRATEGIES</div>
       </div>
     </div>
     <div class="header-divider"></div>
+  </div>
+
+  <!-- UPDATE BANNER -->
+  <div class="update-banner">
+    <div class="update-banner-dot"></div>
+    <span class="translatable">Updated for EA v1.15 — 5 correlated strategies removed (StormX US30, StormX NAS100, TitanX US500, ApexSO XAU M15, VectorPro NAS H3)</span>
   </div>
 
   <!-- MAIN CARD -->
@@ -764,6 +563,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 const T = {
   en: {
     'Multi-Strategy Automated Allocation System': 'Multi-Strategy Automated Allocation System',
+    'Updated for EA v1.15 — 5 correlated strategies removed (StormX US30, StormX NAS100, TitanX US500, ApexSO XAU M15, VectorPro NAS H3)': 'Updated for EA v1.15 — 5 correlated strategies removed (StormX US30, StormX NAS100, TitanX US500, ApexSO XAU M15, VectorPro NAS H3)',
     'Configuration': 'Configuration',
     '🛡️ PROP FIRM MODE — 5% Daily Limit Protection': '🛡️ PROP FIRM MODE — 5% Daily Limit Protection',
     'Reduces lot sizes proportionally to run all strategies simultaneously': 'Reduces lot sizes proportionally to run all strategies simultaneously',
@@ -790,7 +590,6 @@ const T = {
     '✅ Portfolio allocation valid': '✅ Portfolio allocation valid',
     'All strategies operational. MC-calibrated lots protect against real 25–30% drawdown scenarios.': 'All strategies operational. MC-calibrated lots protect against real 25–30% drawdown scenarios.',
     'Prop Firm Mode active': 'Prop Firm Mode active',
-    'Prop Firm Mode active — lot sizes further reduced by': 'Prop Firm Mode active — lot sizes further reduced by',
     'All strategies can run simultaneously within the 5% daily loss limit.': 'All strategies can run simultaneously within the 5% daily loss limit.',
     '⚠️ Account too small:': '⚠️ Account too small:',
     'strategies are below the minimum lot threshold.': 'strategies are below the minimum lot threshold.',
@@ -809,6 +608,7 @@ const T = {
   },
   ro: {
     'Multi-Strategy Automated Allocation System': 'Sistem Automat de Alocare Multi-Strategie',
+    'Updated for EA v1.15 — 5 correlated strategies removed (StormX US30, StormX NAS100, TitanX US500, ApexSO XAU M15, VectorPro NAS H3)': 'Actualizat pentru EA v1.15 — 5 strategii corelate eliminate (StormX US30, StormX NAS100, TitanX US500, ApexSO XAU M15, VectorPro NAS H3)',
     'Configuration': 'Configurare',
     '🛡️ PROP FIRM MODE — 5% Daily Limit Protection': '🛡️ MOD PROP FIRM — Protecție Limită 5% Zilnic',
     'Reduces lot sizes proportionally to run all strategies simultaneously': 'Reduce lot-urile proporțional pentru a rula toate strategiile simultan',
@@ -835,7 +635,6 @@ const T = {
     '✅ Portfolio allocation valid': '✅ Alocare portofoliu validă',
     'All strategies operational. MC-calibrated lots protect against real 25–30% drawdown scenarios.': 'Toate strategiile operaționale. Lot-urile calibrate MC protejează împotriva drawdown-ului real de 25–30%.',
     'Prop Firm Mode active': 'Modul Prop Firm activ',
-    'Prop Firm Mode active — lot sizes further reduced by': 'Modul Prop Firm activ — lot-uri reduse suplimentar cu',
     'All strategies can run simultaneously within the 5% daily loss limit.': 'Toate strategiile pot rula simultan în limita zilnică de 5%.',
     '⚠️ Account too small:': '⚠️ Cont prea mic:',
     'strategies are below the minimum lot threshold.': 'strategii sunt sub pragul minim de lot.',
@@ -856,51 +655,42 @@ const T = {
 
 let lang = localStorage.getItem('gtalgo-lang') || 'en';
 const origTexts = new Map();
-
 function t(key) { return T[lang][key] || key; }
 
-// ─── PORTFOLIO ─────────────────────────────────────────────────────────────────
-// Base lots represent 10% DD in backtest.
-// Monte Carlo reality factor applied: 10% / 27.5% ≈ 0.3636
-// This corrects lots to match real-world 25-30% DD performance.
-// The MC correction is baked into the calculated base — no separate toggle needed.
-const MC_FACTOR = 10 / 27.5; // ≈ 0.3636
+// ─── PORTFOLIO — EA v1.15 — 13 STRATEGIES ──────────────────────────────────────
+// Removed: StormX US30 H1, StormX NAS100 H1, TitanX US500 M5,
+//          ApexSO XAU M15, VectorPro NAS H3
+// Base lots = 10% DD in backtest, MC factor (×0.3636) applied to reflect
+// real-world 25–30% drawdown performance.
 
+const MC_FACTOR = 10 / 27.5; // ≈ 0.3636
 const refBalance = 10000;
 
 const portfolio = [
   // ─── NovaPro ───────────────────────────────────────────────────────────────
-  { name: 'GT-NovaPro US500',      btLot: 5,    min: 0.1,  dec: 1, group: 'NovaPro' },
-  { name: 'GT-NovaPro US30',       btLot: 0.5,  min: 0.1,  dec: 1, group: 'NovaPro' },
+  { name: 'GT-NovaPro US500 D1',      btLot: 5,    min: 0.1,  dec: 1, group: 'NovaPro' },
+  { name: 'GT-NovaPro US30 H12',      btLot: 0.5,  min: 0.1,  dec: 1, group: 'NovaPro' },
 
   // ─── ApexPro ───────────────────────────────────────────────────────────────
-  { name: 'GT-ApexPro XAU M15',    btLot: 0.1,  min: 0.01, dec: 2, group: 'ApexPro' },
-  { name: 'GT-ApexPro XAU H1',     btLot: 0.13, min: 0.01, dec: 2, group: 'ApexPro' },
-  { name: 'GT-ApexPro USDJPY',     btLot: 0.7,  min: 0.01, dec: 2, group: 'ApexPro' },
-  { name: 'GT-ApexPro US100',      btLot: 1.3,  min: 0.1,  dec: 1, group: 'ApexPro' },
+  { name: 'GT-ApexPro XAU M15',       btLot: 0.1,  min: 0.01, dec: 2, group: 'ApexPro' },
+  { name: 'GT-ApexPro XAU H1',        btLot: 0.13, min: 0.01, dec: 2, group: 'ApexPro' },
+  { name: 'GT-ApexPro USDJPY M30',    btLot: 0.7,  min: 0.01, dec: 2, group: 'ApexPro' },
+  { name: 'GT-ApexPro NAS100 M30',    btLot: 1.3,  min: 0.1,  dec: 1, group: 'ApexPro' },
 
-  // ─── ApexProSO (NEW) ───────────────────────────────────────────────────────
-  { name: 'GT-ApexProSO BTC 15M',  btLot: 0.15, min: 0.01, dec: 2, group: 'ApexProSO' },
-  { name: 'GT-ApexProSO NAS M6',   btLot: 1.5,  min: 0.1,  dec: 1, group: 'ApexProSO' },
-  { name: 'GT-ApexProSO US500 M15',btLot: 6,    min: 0.1,  dec: 1, group: 'ApexProSO' },
-  { name: 'GT-ApexProSO XAU M15',  btLot: 0.1,  min: 0.01, dec: 2, group: 'ApexProSO' },
+  // ─── ApexProSO ─────────────────────────────────────────────────────────────
+  { name: 'GT-ApexProSO BTC M15',     btLot: 0.15, min: 0.01, dec: 2, group: 'ApexProSO' },
+  { name: 'GT-ApexProSO NAS M6',      btLot: 1.5,  min: 0.1,  dec: 1, group: 'ApexProSO' },
+  { name: 'GT-ApexProSO US500 M15',   btLot: 6,    min: 0.1,  dec: 1, group: 'ApexProSO' },
 
   // ─── StormX ────────────────────────────────────────────────────────────────
-  { name: 'GT-StormX US30',        btLot: 0.4,  min: 0.1,  dec: 1, group: 'StormX' },
-  { name: 'GT-StormX GER40',       btLot: 1.3,  min: 0.1,  dec: 1, group: 'StormX' },
-  { name: 'GT-StormX US100',       btLot: 1.3,  min: 0.1,  dec: 1, group: 'StormX' },
-
-  // ─── TitanX ────────────────────────────────────────────────────────────────
-  { name: 'GT-TitanX US500',       btLot: 4,    min: 0.1,  dec: 1, group: 'TitanX' },
+  { name: 'GT-StormX GER40 H1',       btLot: 1.3,  min: 0.1,  dec: 1, group: 'StormX' },
 
   // ─── VectorPro ─────────────────────────────────────────────────────────────
-  { name: 'GT-VectorPro XAU',      btLot: 0.06, min: 0.01, dec: 2, group: 'VectorPro' },
-  { name: 'GT-VectorPro BTC',      btLot: 0.1,  min: 0.01, dec: 2, group: 'VectorPro' },
-  { name: 'GT-VectorPro NAS100',   btLot: 1,    min: 0.1,  dec: 1, group: 'VectorPro' },
-  { name: 'GT-VectorPro USDJPY',   btLot: 0.4,  min: 0.01, dec: 2, group: 'VectorPro' }
+  { name: 'GT-VectorPro XAU H3',      btLot: 0.06, min: 0.01, dec: 2, group: 'VectorPro' },
+  { name: 'GT-VectorPro BTC H3',      btLot: 0.1,  min: 0.01, dec: 2, group: 'VectorPro' },
+  { name: 'GT-VectorPro USDJPY H3',   btLot: 0.4,  min: 0.01, dec: 2, group: 'VectorPro' }
 ];
 
-// Floor to allowed decimal places (never exceed risk)
 function floorLot(val, dec) {
   const f = Math.pow(10, dec);
   return (Math.floor(val * f) / f).toFixed(dec);
@@ -935,25 +725,21 @@ function calc() {
 
   if (!balance || balance <= 0) { alert('Enter a valid account balance.'); return; }
 
-  // MC calibration already accounts for real-world drawdown.
-  // Prop Firm Mode uses conservative risk profiles only — no additional lot divider needed.
   const scale = (balance / refBalance) * risk * MC_FACTOR;
 
-  // ── Build table ─────────────────────────────────────────────────────────────
+  const groupColors = {
+    NovaPro:   '#58a6ff',
+    ApexPro:   '#3fb950',
+    ApexProSO: '#bc8cff',
+    StormX:    '#f78166',
+    VectorPro: '#79c0ff'
+  };
+
   let rows = '';
   let lastGroup = null;
   let belowMin = 0;
   let totalLots = 0;
   let validCount = 0;
-
-  const groupColors = {
-    NovaPro: '#58a6ff',
-    ApexPro: '#3fb950',
-    ApexProSO: '#bc8cff',
-    StormX: '#f78166',
-    TitanX: '#d29922',
-    VectorPro: '#79c0ff'
-  };
 
   portfolio.forEach(p => {
     const rawLot = p.btLot * scale;
@@ -979,16 +765,11 @@ function calc() {
     rows += `<tr>
       <td><span class="strategy-name">${p.name}</span></td>
       <td><span class="lot-value" style="color:${below ? 'var(--red)' : 'var(--text)'}">${lotStr}</span></td>
-      <td>
-        <span class="tag ${below ? 'tag-bad' : 'tag-ok'}">
-          ${below ? t('BELOW MIN') : t('OK')}
-        </span>
-      </td>
+      <td><span class="tag ${below ? 'tag-bad' : 'tag-ok'}">${below ? t('BELOW MIN') : t('OK')}</span></td>
     </tr>`;
   });
 
   const avgLot = validCount > 0 ? (totalLots / validCount).toFixed(2) : '0.00';
-  const propReduction = 0; // No additional lot reduction in Prop Mode — MC calibration sufficient
   const allValid = belowMin === 0;
 
   // ── Stats ────────────────────────────────────────────────────────────────────
@@ -1012,9 +793,9 @@ function calc() {
     </div>
     <div class="stat">
       <div class="stat-num" style="color:${prop ? 'var(--orange)' : 'var(--muted)'}">
-        ${prop ? propReduction + '%' : t('Standard')}
+        ${prop ? 'PROP' : t('Standard')}
       </div>
-      <div class="stat-lbl">${prop ? t('Prop Reduction') : t('Mode')}</div>
+      <div class="stat-lbl">${t('Mode')}</div>
     </div>
   </div>`;
 
@@ -1027,8 +808,8 @@ function calc() {
       <div>
         <strong>${t('⚠️ Account too small:')}</strong> ${belowMin} ${t('strategies are below the minimum lot threshold.')}<br>
         ${prop
-          ? `${t('Recommended minimum (Prop Firm:')} <strong>$15,000</strong>`
-          : `${t('Recommended minimum:')} <strong>$5,000</strong>`}
+          ? `${t('Recommended minimum (Prop Firm:')} <strong>$10,000</strong>`
+          : `${t('Recommended minimum:')} <strong>$3,000</strong>`}
       </div>
     </div>`;
   } else {
@@ -1043,7 +824,7 @@ function calc() {
     </div>`;
   }
 
-  if (prop && balance < 15000) {
+  if (prop && balance < 10000) {
     info += `<div class="infobox orange animate-in-delay">
       <div class="infobox-icon">⚡</div>
       <div>
@@ -1055,7 +836,7 @@ function calc() {
   info += `<div class="infobox purple animate-in-delay">
     <div class="infobox-icon">🔬</div>
     <div>
-      <strong>${t('MC-calibrated')}</strong> — Lots recalculated with Monte Carlo factor (×0.36) to reflect real 25–30% drawdown vs backtest 10% DD. Prop Firm Mode uses conservative risk profiles for additional safety.
+      <strong>${t('MC-calibrated')}</strong> — Lots recalculated with Monte Carlo factor (×0.36) to reflect real 25–30% drawdown vs backtest 10% DD. Portfolio reduced to 13 correlation-optimized strategies (EA v1.15).
     </div>
   </div>`;
 
@@ -1064,7 +845,7 @@ function calc() {
   <div class="table-card animate-in">
     <div class="table-header">
       <div class="table-title">${t('Allocation Table')}</div>
-      <div class="table-meta">${t('MC-calibrated')} · ${portfolio.length} strategies</div>
+      <div class="table-meta">${t('MC-calibrated')} · ${portfolio.length} strategies · EA v1.15</div>
     </div>
     <table>
       <tr>
@@ -1083,16 +864,13 @@ function calc() {
 function applyLang(l) {
   lang = l;
   localStorage.setItem('gtalgo-lang', l);
-
   document.querySelectorAll('.translatable').forEach(el => {
     const orig = origTexts.get(el);
     if (orig && T[l][orig]) el.textContent = T[l][orig];
   });
-
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.getAttribute('data-lang') === l);
   });
-
   updateRiskProfiles();
 }
 
@@ -1101,16 +879,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.translatable').forEach(el => {
     origTexts.set(el, el.textContent.trim());
   });
-
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang')));
   });
-
   applyLang(lang);
   updateRiskProfiles();
   updateLabel();
-
-  // Auto-calc on load for instant preview
   calc();
 });
 </script>
