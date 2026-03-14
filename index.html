@@ -29,358 +29,210 @@
   --mono: 'Space Mono', monospace;
   --sans: 'Outfit', sans-serif;
 }
-
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
-
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  min-height: 100vh;
-  overflow-x: hidden;
+  background: var(--bg); color: var(--text);
+  font-family: var(--sans); min-height: 100vh; overflow-x: hidden;
 }
-
 body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
+  content: ''; position: fixed; inset: 0;
   background-image:
     linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
   background-size: 50px 50px;
   animation: gridMove 20s linear infinite;
-  pointer-events: none;
-  z-index: 0;
+  pointer-events: none; z-index: 0;
 }
+@keyframes gridMove { 0%{transform:translate(0,0)} 100%{transform:translate(50px,50px)} }
 
-@keyframes gridMove {
-  0% { transform: translate(0,0); }
-  100% { transform: translate(50px,50px); }
-}
+.wrap { position:relative; z-index:1; max-width:900px; margin:0 auto; padding:50px 24px 80px; }
 
-.wrap {
-  position: relative;
-  z-index: 1;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 50px 24px 80px;
-}
-
-/* ── HEADER ── */
+/* HEADER */
 .header { margin-bottom: 40px; }
-.header-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-bottom: 18px;
-}
-.brand { display: flex; flex-direction: column; gap: 4px; }
+.header-top { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:20px; margin-bottom:18px; }
+.brand { display:flex; flex-direction:column; gap:4px; }
 .brand-logo {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  color: var(--accent);
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  letter-spacing:3px; color:var(--accent); text-transform:uppercase;
+  display:flex; align-items:center; gap:8px;
 }
 .brand-logo::before {
-  content: '';
-  display: inline-block;
-  width: 6px; height: 6px;
-  background: var(--accent);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--accent);
-  animation: pulse 2s ease-in-out infinite;
+  content:''; display:inline-block; width:6px; height:6px;
+  background:var(--accent); border-radius:50%;
+  box-shadow:0 0 8px var(--accent); animation:pulse 2s ease-in-out infinite;
 }
-@keyframes pulse {
-  0%,100% { opacity:1; transform:scale(1); }
-  50% { opacity:0.5; transform:scale(0.8); }
-}
-.brand-title { font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--text); line-height: 1; }
-.brand-sub { font-size: 13px; color: var(--muted); font-weight: 400; }
-.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
-.lang-switcher {
-  display: flex; gap: 2px;
-  background: var(--surface2);
-  padding: 3px; border-radius: 8px;
-  border: 1px solid var(--border);
-}
-.lang-btn {
-  background: transparent; border: none;
-  color: var(--muted); padding: 5px 12px;
-  border-radius: 6px; font-size: 11px;
-  font-weight: 700; letter-spacing: 1px;
-  cursor: pointer; transition: all 0.2s;
-  font-family: var(--mono);
-}
-.lang-btn:hover { color: var(--text); }
-.lang-btn.active { background: var(--accent); color: #000; }
-.version-tag { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; }
-.header-divider {
-  height: 1px;
-  background: linear-gradient(90deg, var(--accent), rgba(88,166,255,0.1), transparent);
-  margin-top: 10px;
-}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+.brand-title { font-size:32px; font-weight:800; letter-spacing:-1px; color:var(--text); line-height:1; }
+.brand-sub { font-size:13px; color:var(--muted); font-weight:400; }
+.header-right { display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
+.lang-switcher { display:flex; gap:2px; background:var(--surface2); padding:3px; border-radius:8px; border:1px solid var(--border); }
+.lang-btn { background:transparent; border:none; color:var(--muted); padding:5px 12px; border-radius:6px; font-size:11px; font-weight:700; letter-spacing:1px; cursor:pointer; transition:all 0.2s; font-family:var(--mono); }
+.lang-btn:hover { color:var(--text); }
+.lang-btn.active { background:var(--accent); color:#000; }
+.version-tag { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:1px; }
+.header-divider { height:1px; background:linear-gradient(90deg,var(--accent),rgba(88,166,255,0.1),transparent); margin-top:10px; }
 
-/* ── CARD ── */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 28px;
-  margin-bottom: 16px;
-  transition: border-color 0.2s;
-}
-.card:hover { border-color: var(--border-bright); }
-.card-label {
-  font-family: var(--mono);
-  font-size: 10px; letter-spacing: 2px;
-  color: var(--muted); text-transform: uppercase;
-  margin-bottom: 20px;
-  display: flex; align-items: center; gap: 8px;
-}
+/* CARD */
+.card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:28px; margin-bottom:16px; transition:border-color 0.2s; }
+.card:hover { border-color:var(--border-bright); }
+.card-label { font-family:var(--mono); font-size:10px; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:8px; }
 .card-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
-/* ── STEP 1: INPUTS ── */
-.inputs-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 24px;
-}
+/* ACCOUNT TYPE */
+.acct-type { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:24px; }
+.acct-btn { padding:14px 16px; border-radius:10px; border:1px solid var(--border); background:var(--surface2); color:var(--muted); font-family:var(--sans); font-size:13px; font-weight:600; cursor:pointer; transition:all 0.2s; text-align:center; }
+.acct-btn .acct-icon { font-size:20px; display:block; margin-bottom:4px; }
+.acct-btn .acct-name { display:block; }
+.acct-btn .acct-desc { display:block; font-size:10px; color:var(--muted); margin-top:2px; font-family:var(--mono); }
+.acct-btn:hover { border-color:var(--border-bright); color:var(--text); }
+.acct-btn.active-standard { border-color:var(--accent); background:var(--accent-dim); color:var(--accent); }
+.acct-btn.active-standard .acct-desc { color:var(--accent); opacity:0.7; }
+.acct-btn.active-prop { border-color:var(--orange); background:var(--orange-dim); color:var(--orange); }
+.acct-btn.active-prop .acct-desc { color:var(--orange); opacity:0.7; }
 
-.field label {
-  display: block;
-  font-size: 11px; font-weight: 600;
-  color: var(--muted); letter-spacing: 0.5px;
-  margin-bottom: 8px; text-transform: uppercase;
-  font-family: var(--mono);
-}
+/* INPUTS */
+.inputs-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px; }
+.field label { display:block; font-size:11px; font-weight:600; color:var(--muted); letter-spacing:0.5px; margin-bottom:8px; text-transform:uppercase; font-family:var(--mono); }
+.field-hint { font-size:11px; color:var(--muted); margin-top:6px; font-family:var(--mono); min-height:16px; transition:color 0.2s; }
+.field-hint.hint-ok    { color: var(--green); }
+.field-hint.hint-warn  { color: var(--orange); }
+.field-hint.hint-error { color: var(--red); }
 
 .field input {
-  width: 100%; padding: 13px 16px;
+  width:100%; padding:13px 16px;
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:8px; color:var(--text);
+  font-size:16px; font-family:var(--sans); font-weight:600;
+  transition:all 0.2s;
+}
+.field input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-dim); }
+.field input.input-ok   { border-color:var(--green) !important; }
+.field input.input-warn { border-color:var(--orange) !important; }
+.field input.input-err  { border-color:var(--red) !important; }
+
+/* DD RANGE DISPLAY */
+.dd-range-bar {
+  margin-top: 14px;
+  padding: 12px 16px;
   background: var(--surface2);
   border: 1px solid var(--border);
-  border-radius: 8px; color: var(--text);
-  font-size: 16px; font-family: var(--sans);
-  font-weight: 600; transition: all 0.2s;
-}
-.field input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
-
-/* ── ACCOUNT TYPE TOGGLE ── */
-.acct-type {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.acct-btn {
-  padding: 14px 16px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--surface2);
-  color: var(--muted);
-  font-family: var(--sans);
-  font-size: 13px; font-weight: 600;
-  cursor: pointer; transition: all 0.2s;
-  text-align: center;
-}
-.acct-btn .acct-icon { font-size: 20px; display: block; margin-bottom: 4px; }
-.acct-btn .acct-name { display: block; }
-.acct-btn .acct-desc { display: block; font-size: 10px; color: var(--muted); margin-top: 2px; font-family: var(--mono); }
-
-.acct-btn:hover { border-color: var(--border-bright); color: var(--text); }
-.acct-btn.active-standard { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); }
-.acct-btn.active-standard .acct-desc { color: var(--accent); opacity: 0.7; }
-.acct-btn.active-prop { border-color: var(--orange); background: var(--orange-dim); color: var(--orange); }
-.acct-btn.active-prop .acct-desc { color: var(--orange); opacity: 0.7; }
-
-/* ── RISK SLIDER ── */
-.risk-section { margin-bottom: 24px; }
-.risk-label-row {
-  display: flex; justify-content: space-between;
-  align-items: center; margin-bottom: 12px;
-}
-.risk-label-row label {
-  font-size: 11px; font-weight: 600;
-  color: var(--muted); letter-spacing: 0.5px;
-  text-transform: uppercase; font-family: var(--mono);
-}
-.risk-label-row .risk-current {
-  font-family: var(--mono); font-size: 12px;
-  color: var(--text); font-weight: 700;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  padding: 3px 10px; border-radius: 6px;
-}
-
-.risk-options {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-.risk-opt {
-  padding: 12px 10px;
   border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--surface2);
-  cursor: pointer; transition: all 0.2s;
-  text-align: center;
+  display: none;
 }
-.risk-opt:hover { border-color: var(--border-bright); }
-.risk-opt.selected { border-color: var(--green); background: var(--green-dim); }
-.risk-opt .ro-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
-.risk-opt .ro-mult { font-family: var(--mono); font-size: 11px; color: var(--muted); }
-.risk-opt .ro-dd { font-size: 10px; color: var(--muted); margin-top: 2px; }
-.risk-opt.selected .ro-name { color: var(--green); }
-.risk-opt.selected .ro-mult { color: var(--green); opacity: 0.8; }
+.dd-range-bar.visible { display: block; }
+.dd-range-label { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+.dd-range-track { position:relative; height:6px; background:rgba(255,255,255,0.08); border-radius:3px; margin-bottom:6px; }
+.dd-range-fill { position:absolute; left:0; top:0; height:100%; border-radius:3px; transition:all 0.4s ease; }
+.dd-range-markers { display:flex; justify-content:space-between; }
+.dd-range-marker { font-family:var(--mono); font-size:9px; color:var(--muted); }
+.dd-range-target { position:absolute; top:-4px; width:2px; height:14px; background:var(--accent); border-radius:1px; transition:left 0.4s ease; }
+.dd-range-target::after { content:attr(data-val); position:absolute; top:-18px; left:50%; transform:translateX(-50%); font-family:var(--mono); font-size:9px; color:var(--accent); white-space:nowrap; }
 
-/* ── CALC BUTTON ── */
-.calc-btn {
-  width: 100%; padding: 15px 20px;
-  background: linear-gradient(135deg, rgba(88,166,255,0.2), rgba(88,166,255,0.08));
-  border: 1px solid rgba(88,166,255,0.35);
-  border-radius: 10px; color: var(--accent);
-  font-size: 14px; font-weight: 700;
-  font-family: var(--mono); letter-spacing: 1.5px;
-  cursor: pointer; transition: all 0.2s;
-  text-transform: uppercase; position: relative; overflow: hidden;
+/* RISK OPTIONS */
+.risk-section { margin-bottom:24px; }
+.risk-label-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.risk-label-row label { font-size:11px; font-weight:600; color:var(--muted); letter-spacing:0.5px; text-transform:uppercase; font-family:var(--mono); }
+.risk-options { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.risk-opt { padding:12px 10px; border-radius:8px; border:1px solid var(--border); background:var(--surface2); cursor:pointer; transition:all 0.2s; text-align:center; position:relative; }
+.risk-opt:hover { border-color:var(--border-bright); }
+.risk-opt.selected  { border-color:var(--green);  background:var(--green-dim); }
+.risk-opt.suggested { border-color:var(--accent); background:var(--accent-dim); }
+.risk-opt.too-risky { border-color:var(--red);    background:var(--red-dim); opacity:0.6; }
+.risk-opt .ro-name { font-size:13px; font-weight:700; color:var(--text); margin-bottom:3px; }
+.risk-opt .ro-mult { font-family:var(--mono); font-size:11px; color:var(--muted); }
+.risk-opt .ro-dd   { font-size:10px; color:var(--muted); margin-top:2px; }
+.risk-opt.selected  .ro-name { color:var(--green); }
+.risk-opt.selected  .ro-mult { color:var(--green); opacity:0.8; }
+.risk-opt.suggested .ro-name { color:var(--accent); }
+.risk-opt.suggested .ro-mult { color:var(--accent); opacity:0.8; }
+.risk-opt.too-risky .ro-name { color:var(--red); }
+.risk-badge {
+  position:absolute; top:-8px; left:50%; transform:translateX(-50%);
+  font-family:var(--mono); font-size:9px; font-weight:700;
+  padding:2px 7px; border-radius:10px; white-space:nowrap;
+  letter-spacing:0.5px;
 }
-.calc-btn:hover { border-color: var(--accent); box-shadow: 0 0 24px var(--accent-glow); transform: translateY(-1px); }
-.calc-btn:active { transform: translateY(0); }
+.badge-best   { background:var(--accent); color:#000; }
+.badge-risky  { background:var(--red);    color:#fff; }
 
-/* ── RESULT CARD ── */
-.result-card {
-  background: var(--surface);
-  border: 2px solid var(--green);
-  border-radius: 14px;
-  padding: 28px;
-  margin-bottom: 16px;
-  animation: fadeIn 0.4s ease forwards;
+/* CALC BUTTON */
+.calc-btn { width:100%; padding:15px 20px; background:linear-gradient(135deg,rgba(88,166,255,0.2),rgba(88,166,255,0.08)); border:1px solid rgba(88,166,255,0.35); border-radius:10px; color:var(--accent); font-size:14px; font-weight:700; font-family:var(--mono); letter-spacing:1.5px; cursor:pointer; transition:all 0.2s; text-transform:uppercase; position:relative; overflow:hidden; }
+.calc-btn:hover { border-color:var(--accent); box-shadow:0 0 24px var(--accent-glow); transform:translateY(-1px); }
+.calc-btn:active { transform:translateY(0); }
+
+/* RESULT */
+.result-card { background:var(--surface); border:2px solid var(--green); border-radius:14px; padding:28px; margin-bottom:16px; animation:fadeIn 0.4s ease forwards; }
+.result-card.prop-result { border-color:var(--orange); }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+.result-headline { font-size:13px; color:var(--muted); font-family:var(--mono); letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
+.ea-setting { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:20px 24px; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.ea-setting-left .ea-param { font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:1px; margin-bottom:6px; }
+.ea-setting-left .ea-field { font-size:13px; color:var(--text); font-weight:500; }
+.ea-setting-right { text-align:right; flex-shrink:0; }
+.ea-setting-right .ea-value-label { font-family:var(--mono); font-size:11px; color:var(--muted); margin-bottom:4px; }
+.ea-value-big { font-family:var(--mono); font-size:42px; font-weight:700; line-height:1; }
+.ea-value-big.green  { color:var(--green);  text-shadow:0 0 20px rgba(63,185,80,0.4); }
+.ea-value-big.orange { color:var(--orange); text-shadow:0 0 20px rgba(210,153,34,0.4); }
+
+/* METRICS */
+.metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+.metric { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; }
+.metric-label { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+.metric-value { font-family:var(--mono); font-size:20px; font-weight:700; color:var(--text); }
+.metric-sub { font-size:11px; color:var(--muted); margin-top:3px; }
+
+/* DD COMPARISON BLOCK */
+.dd-compare {
+  display:grid; grid-template-columns:1fr 1fr; gap:10px;
+  margin-bottom:20px;
 }
-
-.result-card.prop-result { border-color: var(--orange); }
-
-@keyframes fadeIn {
-  from { opacity:0; transform:translateY(10px); }
-  to { opacity:1; transform:translateY(0); }
+.dd-compare-box {
+  padding:14px 16px; border-radius:10px;
+  border:1px solid var(--border); background:var(--surface2);
 }
+.dd-compare-box .dcb-label { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; }
+.dd-compare-box .dcb-value { font-family:var(--mono); font-size:22px; font-weight:700; }
+.dd-compare-box .dcb-sub   { font-size:11px; color:var(--muted); margin-top:3px; }
+.dcb-target .dcb-value { color:var(--accent); }
+.dcb-actual.ok   .dcb-value { color:var(--green); }
+.dcb-actual.warn .dcb-value { color:var(--orange); }
+.dcb-actual.over .dcb-value { color:var(--red); }
 
-.result-headline {
-  font-size: 13px; color: var(--muted);
-  font-family: var(--mono); letter-spacing: 1px;
-  text-transform: uppercase; margin-bottom: 10px;
-}
+/* HOW-TO */
+.how-to { background:rgba(88,166,255,0.05); border:1px solid rgba(88,166,255,0.2); border-radius:10px; padding:18px 20px; margin-bottom:16px; }
+.how-to-title { font-family:var(--mono); font-size:11px; color:var(--accent); letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.steps { display:flex; flex-direction:column; gap:10px; }
+.step { display:flex; gap:12px; align-items:flex-start; }
+.step-num { width:22px; height:22px; background:var(--accent); color:#000; border-radius:50%; font-family:var(--mono); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+.step-text { font-size:13px; color:var(--text); line-height:1.5; }
+.step-text code { font-family:var(--mono); font-size:12px; background:rgba(88,166,255,0.15); color:var(--accent); padding:1px 6px; border-radius:4px; }
 
-/* THE BIG ANSWER */
-.ea-setting {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px 24px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
+/* INFOBOX */
+.infobox { padding:14px 18px; border-radius:10px; font-size:13px; line-height:1.6; margin-bottom:12px; display:flex; gap:12px; align-items:flex-start; }
+.infobox-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+.infobox.green  { background:var(--green-dim);  border:1px solid rgba(63,185,80,0.25);    color:var(--green); }
+.infobox.orange { background:var(--orange-dim); border:1px solid rgba(210,153,34,0.25);   color:var(--orange); }
+.infobox.red    { background:var(--red-dim);    border:1px solid rgba(248,81,73,0.25);    color:var(--red); }
+.infobox.purple { background:var(--purple-dim); border:1px solid rgba(188,140,255,0.2);   color:var(--purple); }
+.infobox strong { font-weight:700; }
 
-.ea-setting-left .ea-param { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 6px; }
-.ea-setting-left .ea-field { font-size: 13px; color: var(--text); font-weight: 500; }
+/* FOOTER */
+.footer { margin-top:32px; padding-top:20px; border-top:1px solid var(--border); text-align:center; }
+.footer p { font-size:11px; color:var(--muted); line-height:1.8; }
 
-.ea-setting-right {
-  text-align: right;
-  flex-shrink: 0;
-}
-.ea-setting-right .ea-value-label { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-.ea-value-big {
-  font-family: var(--mono);
-  font-size: 42px; font-weight: 700;
-  line-height: 1;
-}
-.ea-value-big.green { color: var(--green); text-shadow: 0 0 20px rgba(63,185,80,0.4); }
-.ea-value-big.orange { color: var(--orange); text-shadow: 0 0 20px rgba(210,153,34,0.4); }
-
-/* ── METRICS GRID ── */
-.metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
-
-.metric {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px 16px;
-}
-.metric-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
-.metric-value { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--text); }
-.metric-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
-
-/* ── STEPS HOW TO SET ── */
-.how-to {
-  background: rgba(88,166,255,0.05);
-  border: 1px solid rgba(88,166,255,0.2);
-  border-radius: 10px;
-  padding: 18px 20px;
-  margin-bottom: 16px;
-}
-.how-to-title {
-  font-family: var(--mono); font-size: 11px;
-  color: var(--accent); letter-spacing: 1px;
-  text-transform: uppercase; margin-bottom: 14px;
-  display: flex; align-items: center; gap: 8px;
-}
-.steps { display: flex; flex-direction: column; gap: 10px; }
-.step { display: flex; gap: 12px; align-items: flex-start; }
-.step-num {
-  width: 22px; height: 22px;
-  background: var(--accent); color: #000;
-  border-radius: 50%; font-family: var(--mono);
-  font-size: 11px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 1px;
-}
-.step-text { font-size: 13px; color: var(--text); line-height: 1.5; }
-.step-text code {
-  font-family: var(--mono); font-size: 12px;
-  background: rgba(88,166,255,0.15);
-  color: var(--accent); padding: 1px 6px;
-  border-radius: 4px;
-}
-
-/* ── INFOBOX ── */
-.infobox {
-  padding: 14px 18px; border-radius: 10px;
-  font-size: 13px; line-height: 1.6;
-  margin-bottom: 12px;
-  display: flex; gap: 12px; align-items: flex-start;
-}
-.infobox-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-.infobox.orange { background: var(--orange-dim); border: 1px solid rgba(210,153,34,0.25); color: var(--orange); }
-.infobox.purple { background: var(--purple-dim); border: 1px solid rgba(188,140,255,0.2); color: var(--purple); }
-.infobox strong { font-weight: 700; }
-
-/* ── FOOTER ── */
-.footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; }
-.footer p { font-size: 11px; color: var(--muted); line-height: 1.8; }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 640px) {
-  .wrap { padding: 30px 16px 60px; }
-  .header-top { flex-direction: column; }
-  .header-right { align-items: flex-start; }
-  .inputs-grid { grid-template-columns: 1fr; }
-  .metrics { grid-template-columns: 1fr 1fr; }
-  .brand-title { font-size: 24px; }
-  .ea-value-big { font-size: 32px; }
-  .ea-setting { flex-direction: column; align-items: flex-start; }
-  .ea-setting-right { text-align: left; }
+/* RESPONSIVE */
+@media(max-width:640px) {
+  .wrap { padding:30px 16px 60px; }
+  .header-top { flex-direction:column; }
+  .header-right { align-items:flex-start; }
+  .inputs-grid { grid-template-columns:1fr; }
+  .metrics { grid-template-columns:1fr 1fr; }
+  .dd-compare { grid-template-columns:1fr 1fr; }
+  .brand-title { font-size:24px; }
+  .ea-value-big { font-size:32px; }
+  .ea-setting { flex-direction:column; align-items:flex-start; }
+  .ea-setting-right { text-align:left; }
 }
 </style>
 </head>
@@ -393,14 +245,14 @@ body::after {
       <div class="brand">
         <div class="brand-logo">GTAlgo Systems</div>
         <div class="brand-title">Portfolio Engine</div>
-        <div class="brand-sub" id="sub-tagline">Risk Profile Configurator · EA v1.17</div>
+        <div class="brand-sub" id="sub-tagline">Risk Profile Configurator · EA v1.19</div>
       </div>
       <div class="header-right">
         <div class="lang-switcher">
           <button class="lang-btn active" data-lang="en">EN</button>
           <button class="lang-btn" data-lang="ro">RO</button>
         </div>
-        <div class="version-tag">v4.0 · EA v1.17 · 13 STRATEGIES</div>
+        <div class="version-tag">v4.1 · EA v1.19 · 14 STRATEGIES</div>
       </div>
     </div>
     <div class="header-divider"></div>
@@ -429,22 +281,35 @@ body::after {
       </div>
     </div>
 
-    <!-- BALANCE -->
+    <!-- BALANCE + MAX DD -->
     <div class="inputs-grid">
       <div class="field">
         <label id="lbl-balance">Account Balance ($)</label>
         <input type="number" id="balance" value="10000" min="100" step="500" oninput="onInputChange()">
+        <div class="field-hint" id="hint-balance"></div>
       </div>
       <div class="field">
         <label id="lbl-drawdown">Max Acceptable Drawdown (%)</label>
-        <input type="number" id="maxdd" value="20" min="5" max="50" step="5" oninput="onInputChange()">
+        <input type="number" id="maxdd" value="20" min="1" max="60" step="1" oninput="onDDChange()">
+        <div class="field-hint" id="hint-dd"></div>
       </div>
     </div>
 
-    <!-- RISK TOLERANCE -->
-    <div class="risk-section">
+    <!-- DD RANGE VISUAL BAR -->
+    <div class="dd-range-bar" id="dd-range-bar">
+      <div class="dd-range-label" id="lbl-dd-range-bar">Your DD target vs available profiles</div>
+      <div class="dd-range-track" id="dd-track">
+        <div class="dd-range-fill" id="dd-fill"></div>
+        <div class="dd-range-target" id="dd-target"></div>
+      </div>
+      <div class="dd-range-markers" id="dd-markers"></div>
+    </div>
+
+    <!-- RISK OPTIONS -->
+    <div class="risk-section" style="margin-top:20px">
       <div class="risk-label-row">
         <label id="lbl-risk-tolerance">Risk Tolerance</label>
+        <span id="lbl-auto-hint" style="font-family:var(--mono);font-size:10px;color:var(--accent)"></span>
       </div>
       <div class="risk-options" id="risk-options"></div>
     </div>
@@ -455,7 +320,6 @@ body::after {
   <!-- RESULTS -->
   <div id="results"></div>
 
-  <!-- FOOTER -->
   <div class="footer">
     <p id="footer-txt">
       ⚠️ Lots calibrated against Monte Carlo 25–30% drawdown reality.<br>
@@ -466,10 +330,10 @@ body::after {
 </div>
 
 <script>
-// ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
+// ─── TRANSLATIONS ───────────────────────────────────────────────────────────────
 const T = {
   en: {
-    tagline: 'Risk Profile Configurator · EA v1.17',
+    tagline: 'Risk Profile Configurator · EA v1.19',
     config: 'Configuration',
     acctType: 'Account Type',
     standardName: 'Standard Account', standardDesc: 'Personal / Live',
@@ -477,19 +341,31 @@ const T = {
     balance: 'Account Balance ($)',
     maxdd: 'Max Acceptable Drawdown (%)',
     riskTol: 'Risk Tolerance',
+    autoHint: '← auto-selected from your DD target',
     btnCalc: '▶   Find My Settings',
     footer: '⚠️ Lots calibrated against Monte Carlo 25–30% drawdown reality.\nHistorical performance does not guarantee future results. Trade responsibly.',
 
+    // DD hint messages
+    hintDdOk:      val => `✓ Achievable — best fit profile highlighted below`,
+    hintDdLow:     val => `⚠ Below minimum portfolio DD (~${val}%). Tightest profile selected.`,
+    hintDdHigh:    val => `⚠ Above ${val}% — consider reducing if capital preservation matters.`,
+    hintBalSmall:  (min) => `ℹ Some strategies inactive below $${min.toLocaleString()}`,
+    hintBalOk:     () => `✓ Balance OK for all strategies`,
+
+    ddRangeBarLabel: 'Your DD target vs available profiles',
+    badgeBest:  'BEST FIT',
+    badgeRisky: 'EXCEEDS TARGET',
+
     riskOpts: {
       standard: [
-        { id:'s-cons', name:'Conservative', mult:0.5,  ddRange:'10–15%', desc:'Lower drawdown' },
-        { id:'s-bal',  name:'Balanced',     mult:1.0,  ddRange:'20–30%', desc:'Recommended' },
-        { id:'s-agg',  name:'Aggressive',   mult:1.5,  ddRange:'30–40%', desc:'Higher returns' },
+        { id:'s-cons', name:'Conservative', mult:0.5,  ddMin:8,  ddMax:15, ddRange:'8–15%',   desc:'Lower drawdown' },
+        { id:'s-bal',  name:'Balanced',     mult:1.0,  ddMin:16, ddMax:30, ddRange:'16–30%',  desc:'Recommended' },
+        { id:'s-agg',  name:'Aggressive',   mult:1.5,  ddMin:28, ddMax:45, ddRange:'28–45%',  desc:'Higher returns' },
       ],
       prop: [
-        { id:'p-cons', name:'Prop Conservative', mult:0.25, ddRange:'5–8%',   desc:'Safest / FTMO' },
-        { id:'p-bal',  name:'Prop Balanced',      mult:0.33, ddRange:'8–12%',  desc:'Recommended' },
-        { id:'p-agg',  name:'Prop Aggressive',    mult:0.40, ddRange:'10–15%', desc:'Max prop safe' },
+        { id:'p-cons', name:'Prop Conservative', mult:0.25, ddMin:3,  ddMax:8,  ddRange:'3–8%',   desc:'Safest / FTMO' },
+        { id:'p-bal',  name:'Prop Balanced',      mult:0.33, ddMin:7,  ddMax:12, ddRange:'7–12%',  desc:'Recommended' },
+        { id:'p-agg',  name:'Prop Aggressive',    mult:0.40, ddMin:10, ddMax:16, ddRange:'10–16%', desc:'Max prop safe' },
       ]
     },
 
@@ -500,19 +376,26 @@ const T = {
     profileLabel: 'Profile',
     howToTitle: '📋 How to set this in the EA',
     steps: [
-      'Attach <code>GT Master EA v1.17</code> to any chart.',
+      'Attach <code>GT Master EA v1.19</code> to any chart.',
       'Click the EA icon → <code>Inputs</code> tab.',
       'Find <code>RiskMultiplier</code> under the <strong>RISK MANAGEMENT</strong> section.',
       s => `Set it to <code>${s}</code> and click OK. Done!`
     ],
-    metricDD:   'Estimated Max DD',
+    metricDD:     'Estimated DD Range',
     metricProfit: 'Daily Risk $',
-    metricAtRisk: '% of account per day',
-    propWarning: '🛡️ Prop Firm Mode active — lot sizes are reduced to stay within the 5% daily loss limit when all 13 strategies run simultaneously.',
-    smallAcct: '⚠️ With a balance below $5,000 on Standard or $10,000 on Prop, some strategies with very small lots may be rounded to broker minimum. The EA handles this automatically.',
+    metricBalance:'Balance',
+    metricAtRisk: '~% of account / day',
+    ddTargetLabel:  'Your DD Target',
+    ddActualLabel:  'Profile DD Range',
+    ddOkMsg:    'Within your target ✓',
+    ddWarnMsg:  'Near your limit ⚠',
+    ddOverMsg:  'Exceeds your target ✗',
+    propWarning: '🛡️ Prop Firm Mode active — lot sizes are reduced to stay within the 5% daily loss limit when all 14 strategies run simultaneously.',
+    smallAcct: '⚠ With a balance below $5,000 (Standard) or $10,000 (Prop), some strategies may be rounded to broker minimum. The EA handles this automatically — those strategies are simply skipped until balance grows.',
+    ddMismatch: (target, actual) => `ℹ Your DD target is ${target}% but this profile's estimated range is ${actual}. Consider switching to a more conservative profile.`,
   },
   ro: {
-    tagline: 'Configurator Profil Risc · EA v1.17',
+    tagline: 'Configurator Profil Risc · EA v1.19',
     config: 'Configurare',
     acctType: 'Tip Cont',
     standardName: 'Cont Standard', standardDesc: 'Personal / Live',
@@ -520,19 +403,30 @@ const T = {
     balance: 'Balanță Cont ($)',
     maxdd: 'Drawdown Maxim Acceptat (%)',
     riskTol: 'Toleranță la Risc',
+    autoHint: '← selectat automat din ținta ta DD',
     btnCalc: '▶   Găsește Setările Mele',
     footer: '⚠️ Lot-urile sunt calibrate față de realitatea Monte Carlo de 25–30% drawdown.\nPerformanța istorică nu garantează rezultate viitoare. Tranzacționează responsabil.',
 
+    hintDdOk:      val => `✓ Realizabil — profilul potrivit evidențiat mai jos`,
+    hintDdLow:     val => `⚠ Sub DD-ul minim al portofoliului (~${val}%). Cel mai conservator profil selectat.`,
+    hintDdHigh:    val => `⚠ Peste ${val}% — consideră reducerea dacă protejarea capitalului contează.`,
+    hintBalSmall:  (min) => `ℹ Unele strategii inactive sub $${min.toLocaleString()}`,
+    hintBalOk:     () => `✓ Balanță OK pentru toate strategiile`,
+
+    ddRangeBarLabel: 'Ținta ta DD față de profilurile disponibile',
+    badgeBest:  'CEL MAI POTRIVIT',
+    badgeRisky: 'DEPĂȘEȘTE ȚINTA',
+
     riskOpts: {
       standard: [
-        { id:'s-cons', name:'Conservator',  mult:0.5,  ddRange:'10–15%', desc:'Drawdown redus' },
-        { id:'s-bal',  name:'Echilibrat',   mult:1.0,  ddRange:'20–30%', desc:'Recomandat' },
-        { id:'s-agg',  name:'Agresiv',      mult:1.5,  ddRange:'30–40%', desc:'Profit mai mare' },
+        { id:'s-cons', name:'Conservator',  mult:0.5,  ddMin:8,  ddMax:15, ddRange:'8–15%',   desc:'Drawdown redus' },
+        { id:'s-bal',  name:'Echilibrat',   mult:1.0,  ddMin:16, ddMax:30, ddRange:'16–30%',  desc:'Recomandat' },
+        { id:'s-agg',  name:'Agresiv',      mult:1.5,  ddMin:28, ddMax:45, ddRange:'28–45%',  desc:'Profit mai mare' },
       ],
       prop: [
-        { id:'p-cons', name:'Prop Conservator', mult:0.25, ddRange:'5–8%',   desc:'Cel mai sigur' },
-        { id:'p-bal',  name:'Prop Echilibrat',  mult:0.33, ddRange:'8–12%',  desc:'Recomandat' },
-        { id:'p-agg',  name:'Prop Agresiv',     mult:0.40, ddRange:'10–15%', desc:'Max prop safe' },
+        { id:'p-cons', name:'Prop Conservator', mult:0.25, ddMin:3,  ddMax:8,  ddRange:'3–8%',   desc:'Cel mai sigur' },
+        { id:'p-bal',  name:'Prop Echilibrat',  mult:0.33, ddMin:7,  ddMax:12, ddRange:'7–12%',  desc:'Recomandat' },
+        { id:'p-agg',  name:'Prop Agresiv',     mult:0.40, ddMin:10, ddMax:16, ddRange:'10–16%', desc:'Max prop safe' },
       ]
     },
 
@@ -543,128 +437,266 @@ const T = {
     profileLabel: 'Profil',
     howToTitle: '📋 Cum setezi în EA',
     steps: [
-      'Atașează <code>GT Master EA v1.17</code> pe orice chart.',
+      'Atașează <code>GT Master EA v1.19</code> pe orice chart.',
       'Click pe iconița EA → tab <code>Inputs</code>.',
       'Găsește <code>RiskMultiplier</code> la secțiunea <strong>RISK MANAGEMENT</strong>.',
       s => `Setează-l la <code>${s}</code> și apasă OK. Gata!`
     ],
-    metricDD:   'Drawdown Estimat Max',
+    metricDD:     'Interval DD Estimat',
     metricProfit: 'Risc Zilnic $',
-    metricAtRisk: '% cont per zi',
-    propWarning: '🛡️ Mod Prop Firm activ — lot-urile sunt reduse pentru a rămâne în limita zilnică de 5% când toate cele 13 strategii rulează simultan.',
-    smallAcct: '⚠️ Cu o balanță sub $5.000 pe Standard sau $10.000 pe Prop, unele strategii cu loturi foarte mici pot fi rotunjite la minimul brokerului. EA-ul gestionează asta automat.',
+    metricBalance:'Balanță',
+    metricAtRisk: '~% cont / zi',
+    ddTargetLabel:  'Ținta Ta DD',
+    ddActualLabel:  'Interval DD Profil',
+    ddOkMsg:    'În limita țintei ✓',
+    ddWarnMsg:  'Aproape de limită ⚠',
+    ddOverMsg:  'Depășește ținta ✗',
+    propWarning: '🛡️ Mod Prop Firm activ — lot-urile sunt reduse pentru a rămâne în limita zilnică de 5% când toate cele 14 strategii rulează simultan.',
+    smallAcct: '⚠ Cu o balanță sub $5.000 (Standard) sau $10.000 (Prop), unele strategii pot fi rotunjite la minimul brokerului. EA-ul gestionează asta automat — acele strategii sunt pur și simplu sărite până când balanța crește.',
+    ddMismatch: (target, actual) => `ℹ Ținta ta DD este ${target}% dar intervalul estimat al acestui profil este ${actual}. Consideră un profil mai conservator.`,
   }
 };
 
-let lang = localStorage.getItem('gtalgo-lang') || 'en';
-let acctType = 'standard';
-let selectedRisk = null;
-
-// ─── btLot values (MC factor already baked in) ─────────────────────────────────
-// Used to estimate daily dollar risk across all 13 strategies
-const btLots = [1.82, 0.18, 0.04, 0.05, 0.25, 0.47, 0.05, 0.55, 2.18, 0.47, 0.02, 0.04, 0.15];
-// Approximate pip value in $ per lot for each strategy (at $10k balance)
-// Used only for daily risk estimation — rough approximation
-const pipValues = [1, 0.5, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 10]; // per pip per lot
+let lang      = localStorage.getItem('gtalgo-lang') || 'en';
+let acctType  = 'standard';
+let selectedRisk = null; // the mult value user clicked (or null = auto)
+let autoRisk     = null; // the mult value auto-derived from maxDD
 
 function t(key) { return T[lang][key]; }
 
-// ─── UI HELPERS ───────────────────────────────────────────────────────────────
-function applyLang(l) {
-  lang = l;
-  localStorage.setItem('gtalgo-lang', l);
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
-  rebuildUI();
-  if (selectedRisk !== null) calc();
-}
-
-function setAcctType(type) {
-  acctType = type;
-  selectedRisk = null;
-  document.getElementById('btn-standard').className = 'acct-btn' + (type === 'standard' ? ' active-standard' : '');
-  document.getElementById('btn-prop').className     = 'acct-btn' + (type === 'prop' ? ' active-prop' : '');
-  rebuildRiskOptions();
-  document.getElementById('results').innerHTML = '';
-}
-
-function rebuildUI() {
-  const lt = T[lang];
-  document.getElementById('sub-tagline').textContent      = lt.tagline;
-  document.getElementById('lbl-config').textContent       = lt.config;
-  document.getElementById('lbl-acct-type').textContent    = lt.acctType;
-  document.getElementById('lbl-standard-name').textContent= lt.standardName;
-  document.getElementById('lbl-standard-desc').textContent= lt.standardDesc;
-  document.getElementById('lbl-prop-name').textContent    = lt.propName;
-  document.getElementById('lbl-prop-desc').textContent    = lt.propDesc;
-  document.getElementById('lbl-balance').textContent      = lt.balance;
-  document.getElementById('lbl-drawdown').textContent     = lt.maxdd;
-  document.getElementById('lbl-risk-tolerance').textContent = lt.riskTol;
-  document.getElementById('btn-calc').textContent         = lt.btnCalc;
-  document.getElementById('footer-txt').innerHTML         = lt.footer.replace('\n', '<br>');
-  rebuildRiskOptions();
-}
-
-function rebuildRiskOptions() {
+// ─── DD → best fit profile ────────────────────────────────────────────────────
+// Returns the profile whose ddMax is the closest ceiling above the user's target.
+// If target > all ddMax → returns the most aggressive (user is warned).
+// If target < all ddMin → returns the most conservative (user is warned).
+function getBestFitProfile(ddTarget) {
   const opts = T[lang].riskOpts[acctType];
+  // Find profiles where ddMin <= target <= ddMax  (target fits inside range)
+  const fits = opts.filter(o => ddTarget >= o.ddMin && ddTarget <= o.ddMax);
+  if (fits.length > 0) return { opt: fits[fits.length - 1], status: 'ok' };
+
+  // Target below minimum profile
+  if (ddTarget < opts[0].ddMin) return { opt: opts[0], status: 'low' };
+
+  // Target above maximum profile
+  return { opt: opts[opts.length - 1], status: 'high' };
+}
+
+// ─── UPDATE DD HINTS + BAR + AUTO-SELECT ─────────────────────────────────────
+function onDDChange() {
+  const ddVal   = parseFloat(document.getElementById('maxdd').value);
+  const hintEl  = document.getElementById('hint-dd');
+  const inputEl = document.getElementById('maxdd');
+  const autoHintEl = document.getElementById('lbl-auto-hint');
+
+  if (!ddVal || ddVal <= 0) {
+    hintEl.textContent = '';
+    hintEl.className = 'field-hint';
+    inputEl.className = 'field input';
+    autoRisk = null;
+    rebuildRiskOptions();
+    updateDDBar(null);
+    return;
+  }
+
+  const { opt, status } = getBestFitProfile(ddVal);
+  autoRisk = opt.mult;
+
+  // If user hasn't manually clicked a profile, auto-select
+  if (selectedRisk === null) {
+    // keep autoRisk as the displayed selection
+  }
+
+  // Hint text
+  const lt = T[lang];
+  if (status === 'ok') {
+    hintEl.textContent = lt.hintDdOk(ddVal);
+    hintEl.className   = 'field-hint hint-ok';
+    inputEl.className  = 'field input input-ok';
+  } else if (status === 'low') {
+    const minDD = T[lang].riskOpts[acctType][0].ddMin;
+    hintEl.textContent = lt.hintDdLow(minDD);
+    hintEl.className   = 'field-hint hint-warn';
+    inputEl.className  = 'field input input-warn';
+  } else {
+    const maxDD = T[lang].riskOpts[acctType][T[lang].riskOpts[acctType].length - 1].ddMax;
+    hintEl.textContent = lt.hintDdHigh(maxDD);
+    hintEl.className   = 'field-hint hint-warn';
+    inputEl.className  = 'field input input-warn';
+  }
+
+  autoHintEl.textContent = lt.autoHint;
+  rebuildRiskOptions();
+  updateDDBar(ddVal);
+
+  // Auto-recalc if result already shown
+  if (document.getElementById('results').innerHTML.trim()) calc();
+}
+
+// ─── DD BAR VISUAL ───────────────────────────────────────────────────────────
+function updateDDBar(ddTarget) {
+  const bar = document.getElementById('dd-range-bar');
+  if (!ddTarget) { bar.classList.remove('visible'); return; }
+  bar.classList.add('visible');
+
+  const opts = T[lang].riskOpts[acctType];
+  const absMin = opts[0].ddMin;
+  const absMax = opts[opts.length - 1].ddMax;
+  const range  = absMax - absMin;
+
+  // Fill = from absMin to absMax (full bar = all profiles)
+  const fillPct = 100;
+  const fill = document.getElementById('dd-fill');
+  fill.style.width = fillPct + '%';
+  fill.style.background = `linear-gradient(90deg, var(--green), var(--orange), var(--red))`;
+
+  // Target marker position
+  const targetPct = Math.min(100, Math.max(0, ((ddTarget - absMin) / range) * 100));
+  const targetEl  = document.getElementById('dd-target');
+  targetEl.style.left = targetPct + '%';
+  targetEl.setAttribute('data-val', ddTarget + '%');
+
+  // Markers
+  const markersEl = document.getElementById('dd-markers');
+  markersEl.innerHTML = opts.map(o =>
+    `<span class="dd-range-marker">${o.ddMin}%</span>`
+  ).join('') + `<span class="dd-range-marker">${opts[opts.length-1].ddMax}%</span>`;
+}
+
+// ─── RISK OPTIONS REBUILD ────────────────────────────────────────────────────
+function rebuildRiskOptions() {
+  const opts    = T[lang].riskOpts[acctType];
+  const ddVal   = parseFloat(document.getElementById('maxdd').value) || null;
+  const active  = selectedRisk !== null ? selectedRisk : autoRisk;
   const container = document.getElementById('risk-options');
-  container.innerHTML = opts.map(o => `
-    <div class="risk-opt ${selectedRisk === o.mult ? 'selected' : ''}"
-         onclick="selectRisk(${o.mult})" id="ropt-${o.mult.toString().replace('.','_')}">
+
+  container.innerHTML = opts.map(o => {
+    const isSelected  = active === o.mult;
+    const isAutoFit   = autoRisk === o.mult && selectedRisk === null;
+    const isTooRisky  = ddVal && o.ddMin > ddVal;
+
+    let cls = 'risk-opt';
+    let badge = '';
+    if (isSelected) cls += ' selected';
+    else if (isAutoFit) cls += ' suggested';
+    if (isTooRisky) cls += ' too-risky';
+
+    if (isAutoFit && !isSelected) {
+      badge = `<div class="risk-badge badge-best">${T[lang].badgeBest}</div>`;
+    } else if (isTooRisky) {
+      badge = `<div class="risk-badge badge-risky">${T[lang].badgeRisky}</div>`;
+    }
+
+    return `<div class="${cls}" onclick="selectRisk(${o.mult})">
+      ${badge}
       <div class="ro-name">${o.name}</div>
       <div class="ro-mult">RiskMultiplier = ${o.mult}</div>
-      <div class="ro-dd">${o.ddRange} DD · ${o.desc}</div>
-    </div>
-  `).join('');
+      <div class="ro-dd">${o.ddRange} · ${o.desc}</div>
+    </div>`;
+  }).join('');
 }
 
 function selectRisk(mult) {
   selectedRisk = mult;
   rebuildRiskOptions();
+  if (document.getElementById('results').innerHTML.trim()) calc();
 }
 
 function onInputChange() {
-  // auto-recalc if already showing result
+  // balance hint
+  const balance = parseFloat(document.getElementById('balance').value);
+  const hintEl  = document.getElementById('hint-balance');
+  const inputEl = document.getElementById('balance');
+  const isProp  = acctType === 'prop';
+  const minFull = isProp ? 10000 : 5000;
+  if (balance && balance < minFull) {
+    hintEl.textContent = T[lang].hintBalSmall(minFull);
+    hintEl.className   = 'field-hint hint-warn';
+    inputEl.className  = 'field input input-warn';
+  } else if (balance) {
+    hintEl.textContent = T[lang].hintBalOk();
+    hintEl.className   = 'field-hint hint-ok';
+    inputEl.className  = 'field input input-ok';
+  } else {
+    hintEl.textContent = '';
+    hintEl.className   = 'field-hint';
+    inputEl.className  = 'field input';
+  }
+
   if (document.getElementById('results').innerHTML.trim()) calc();
 }
 
 // ─── MAIN CALC ────────────────────────────────────────────────────────────────
 function calc() {
   const balance = parseFloat(document.getElementById('balance').value);
-  const maxDD   = parseFloat(document.getElementById('maxdd').value) || 20;
+  const ddTarget = parseFloat(document.getElementById('maxdd').value) || null;
+  const isProp  = acctType === 'prop';
+  const lt      = T[lang];
 
   if (!balance || balance <= 0) { alert('Enter a valid balance.'); return; }
-  if (selectedRisk === null) {
-    // auto-select recommended
-    selectedRisk = acctType === 'prop' ? 0.33 : 1.0;
+
+  // Determine which profile to use
+  let activeRisk = selectedRisk !== null ? selectedRisk : autoRisk;
+  if (activeRisk === null) {
+    // nothing selected and no DD entered → default to Balanced
+    activeRisk = isProp ? 0.33 : 1.0;
+    autoRisk   = activeRisk;
     rebuildRiskOptions();
   }
 
-  const lt       = T[lang];
-  const opts     = lt.riskOpts[acctType];
-  const opt      = opts.find(o => o.mult === selectedRisk) || opts[1];
-  const mult     = opt.mult;
-  const isProp   = acctType === 'prop';
+  const opts = lt.riskOpts[acctType];
+  const opt  = opts.find(o => o.mult === activeRisk) || opts[1];
+  const mult = opt.mult;
 
-  // Estimated daily dollar risk: sum of (btLot × scale × rough avg daily move)
-  // We use a simplified model: ~0.5% of balance per active strategy per day as base
-  const scale       = (balance / 10000) * mult;
-  const dailyRiskPct = mult * 2.5; // rough: at mult=1 → ~2.5% daily risk across portfolio
-  const dailyRiskUSD = (balance * dailyRiskPct / 100).toFixed(0);
-  const ddRange      = opt.ddRange;
+  const dailyRiskPct = mult * 2.5;
+  const dailyRiskUSD = Math.round(balance * dailyRiskPct / 100);
   const isSmall      = (isProp && balance < 10000) || (!isProp && balance < 5000);
-
   const valueColor   = isProp ? 'orange' : 'green';
   const resultClass  = isProp ? 'result-card prop-result' : 'result-card';
 
-  // How-to steps
-  const stepTexts = lt.steps;
-  const stepsHtml = stepTexts.map((s, i) => {
-    const txt = typeof s === 'function' ? s(mult) : s;
-    return `<div class="step">
-      <div class="step-num">${i+1}</div>
-      <div class="step-text">${txt}</div>
+  // DD comparison
+  let ddCompareHtml = '';
+  if (ddTarget) {
+    const actualMid = (opt.ddMin + opt.ddMax) / 2;
+    let ddStatus, ddMsg;
+    if (ddTarget >= opt.ddMin && ddTarget <= opt.ddMax) {
+      ddStatus = 'ok';   ddMsg = lt.ddOkMsg;
+    } else if (ddTarget < opt.ddMin) {
+      ddStatus = 'warn'; ddMsg = lt.ddWarnMsg;
+    } else {
+      ddStatus = 'over'; ddMsg = lt.ddOverMsg;
+    }
+    ddCompareHtml = `
+    <div class="dd-compare">
+      <div class="dd-compare-box dcb-target">
+        <div class="dcb-label">${lt.ddTargetLabel}</div>
+        <div class="dcb-value">${ddTarget}%</div>
+        <div class="dcb-sub">${lt.maxdd || 'Max Acceptable'}</div>
+      </div>
+      <div class="dd-compare-box dcb-actual ${ddStatus}">
+        <div class="dcb-label">${lt.ddActualLabel}</div>
+        <div class="dcb-value">${opt.ddRange}</div>
+        <div class="dcb-sub">${ddMsg}</div>
+      </div>
     </div>`;
+  }
+
+  // Steps
+  const stepsHtml = lt.steps.map((s, i) => {
+    const txt = typeof s === 'function' ? s(mult) : s;
+    return `<div class="step"><div class="step-num">${i+1}</div><div class="step-text">${txt}</div></div>`;
   }).join('');
+
+  // DD mismatch warning (target entered but profile exceeds it)
+  let mismatchHtml = '';
+  if (ddTarget && ddTarget < opt.ddMin) {
+    mismatchHtml = `<div class="infobox orange">
+      <div class="infobox-icon">⚠️</div>
+      <div>${lt.ddMismatch(ddTarget, opt.ddRange)}</div>
+    </div>`;
+  }
+  if (ddTarget && ddTarget < opt.ddMax && ddTarget > opt.ddMin) {
+    // fits — no warning
+  }
 
   const html = `
   <div class="${resultClass}">
@@ -681,19 +713,21 @@ function calc() {
       </div>
     </div>
 
+    ${ddCompareHtml}
+
     <div class="metrics">
       <div class="metric">
         <div class="metric-label">${lt.metricDD}</div>
-        <div class="metric-value">${ddRange}</div>
+        <div class="metric-value">${opt.ddRange}</div>
         <div class="metric-sub">${lt.profileLabel}: ${opt.name}</div>
       </div>
       <div class="metric">
         <div class="metric-label">${lt.metricProfit}</div>
-        <div class="metric-value">~$${Number(dailyRiskUSD).toLocaleString()}</div>
+        <div class="metric-value">~$${dailyRiskUSD.toLocaleString()}</div>
         <div class="metric-sub">${lt.metricAtRisk}</div>
       </div>
       <div class="metric">
-        <div class="metric-label">Balance</div>
+        <div class="metric-label">${lt.metricBalance}</div>
         <div class="metric-value" style="font-size:16px">$${balance.toLocaleString()}</div>
         <div class="metric-sub">${isProp ? lt.propName : lt.standardName}</div>
       </div>
@@ -704,6 +738,7 @@ function calc() {
       <div class="steps">${stepsHtml}</div>
     </div>
 
+    ${mismatchHtml}
     ${isProp ? `<div class="infobox orange"><div class="infobox-icon">🛡️</div><div>${lt.propWarning}</div></div>` : ''}
     ${isSmall ? `<div class="infobox purple"><div class="infobox-icon">ℹ️</div><div>${lt.smallAcct}</div></div>` : ''}
   </div>`;
@@ -712,12 +747,62 @@ function calc() {
   document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
+// ─── ACCOUNT TYPE SWITCH ──────────────────────────────────────────────────────
+function setAcctType(type) {
+  acctType     = type;
+  selectedRisk = null;
+  autoRisk     = null;
+  document.getElementById('btn-standard').className = 'acct-btn' + (type==='standard' ? ' active-standard' : '');
+  document.getElementById('btn-prop').className     = 'acct-btn' + (type==='prop'     ? ' active-prop' : '');
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('lbl-auto-hint').textContent = '';
+  rebuildRiskOptions();
+  // Re-evaluate DD if already entered
+  const ddVal = parseFloat(document.getElementById('maxdd').value);
+  if (ddVal) onDDChange();
+  onInputChange();
+}
+
+// ─── LANGUAGE ─────────────────────────────────────────────────────────────────
+function applyLang(l) {
+  lang = l;
+  localStorage.setItem('gtalgo-lang', l);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+  rebuildUI();
+  if (selectedRisk !== null || autoRisk !== null) calc();
+}
+
+function rebuildUI() {
+  const lt = T[lang];
+  document.getElementById('sub-tagline').textContent         = lt.tagline;
+  document.getElementById('lbl-config').textContent          = lt.config;
+  document.getElementById('lbl-acct-type').textContent       = lt.acctType;
+  document.getElementById('lbl-standard-name').textContent   = lt.standardName;
+  document.getElementById('lbl-standard-desc').textContent   = lt.standardDesc;
+  document.getElementById('lbl-prop-name').textContent       = lt.propName;
+  document.getElementById('lbl-prop-desc').textContent       = lt.propDesc;
+  document.getElementById('lbl-balance').textContent         = lt.balance;
+  document.getElementById('lbl-drawdown').textContent        = lt.maxdd;
+  document.getElementById('lbl-risk-tolerance').textContent  = lt.riskTol;
+  document.getElementById('btn-calc').textContent            = lt.btnCalc;
+  document.getElementById('lbl-dd-range-bar').textContent    = lt.ddRangeBarLabel;
+  document.getElementById('footer-txt').innerHTML            = lt.footer.replace('\n','<br>');
+  rebuildRiskOptions();
+  // re-evaluate hints
+  onInputChange();
+  const ddVal = parseFloat(document.getElementById('maxdd').value);
+  if (ddVal) onDDChange();
+}
+
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.lang-btn').forEach(b => {
     b.addEventListener('click', () => applyLang(b.dataset.lang));
   });
   applyLang(lang);
+  // Trigger DD logic with default value
+  onDDChange();
+  onInputChange();
 });
 </script>
 </body>
